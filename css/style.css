@@ -1887,6 +1887,254 @@ kbd {
     transform: none;
 }
 
+/* ==========================================================
+   Motion layer (motion.js)
+   ========================================================== */
+
+/* hero stage: the canvas, the glass lens and the mode switch stacked together */
+.hero-stage {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 1 / 1;
+    justify-self: center;
+}
+
+.morph-canvas {
+    position: absolute;
+    inset: 0 0 3.5rem;
+    width: 100%;
+    height: calc(100% - 3.5rem);
+    touch-action: pan-y;
+}
+
+/* the glass disc only shows in photo mode. backdrop blur bends the dots behind it */
+.glass-lens {
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 1.75rem);
+    width: 46%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    background:
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .55), transparent 28%),
+        radial-gradient(circle at 70% 80%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 45%),
+        color-mix(in srgb, var(--bg-surface) 18%, transparent);
+    border: 1px solid rgba(255, 255, 255, .55);
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .15),
+        inset 0 -18px 40px rgba(0, 0, 0, .12),
+        0 24px 50px -20px rgba(0, 0, 0, .35);
+    backdrop-filter: blur(5px) saturate(1.6) contrast(1.1);
+    -webkit-backdrop-filter: blur(5px) saturate(1.6) contrast(1.1);
+}
+
+.stage-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 3.6rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.stage-caption span {
+    color: var(--accent);
+}
+
+/* segmented switch with a pill that springs between the options */
+.mode-switch {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    display: flex;
+    padding: 4px;
+    border-radius: 999px;
+    border: 1px solid var(--border-hairline);
+    background: var(--bg-surface);
+}
+
+.mode-switch button {
+    position: relative;
+    z-index: 1;
+    padding: .55rem 1.2rem;
+    border-radius: 999px;
+    font-family: var(--label-font);
+    font-size: .78rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    transition: color .25s;
+}
+
+.mode-switch button[aria-selected="true"] {
+    color: var(--bg-surface);
+}
+
+.mode-pill {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    border-radius: 999px;
+    background: var(--text-primary);
+}
+
+/* shared element morph: the copy that flies from the card into the drawer */
+.morph-ghost {
+    position: fixed;
+    inset: 0;
+    z-index: 260;
+    pointer-events: none;
+    transition: opacity .3s;
+}
+
+.morph-ghost.out {
+    opacity: 0;
+}
+
+.mg-img {
+    position: absolute;
+    border-radius: 6px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    will-change: transform;
+}
+
+.mg-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mg-title {
+    position: absolute;
+    margin: 0;
+    font-family: var(--heading-font);
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--text-primary);
+    transform-origin: 0 0;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+/* while the copy is flying, the real panel waits invisible in place */
+.drawer.morphing .drawer-panel {
+    transition: none;
+    transform: none;
+    opacity: 0;
+}
+
+.drawer .drawer-panel {
+    transition: transform .5s var(--ease), opacity .35s;
+}
+
+.bento-card.morph-source .thumb img {
+    opacity: 0;
+}
+
+/* the shared webgl canvas that sits over a hovered photo */
+.liquid-layer {
+    position: fixed;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.liquid-layer.on {
+    opacity: 1;
+}
+
+/* lens cursor. only added for mouse / trackpad users */
+body.has-cursor,
+body.has-cursor a,
+body.has-cursor button,
+body.has-cursor .tile,
+body.has-cursor .cf-card {
+    cursor: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 400;
+    pointer-events: none;
+}
+
+.cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.cursor-ring {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid var(--text-primary);
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    mix-blend-mode: normal;
+    transition: border-color .25s, background .25s, opacity .25s;
+    will-change: transform;
+}
+
+.cursor-ring.hover {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.cursor-ring video {
+    position: absolute;
+    inset: -10%;
+    width: 120%;
+    height: 120%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.cursor-ring.lens {
+    border: 2px solid var(--accent);
+    box-shadow: 0 18px 40px -12px rgba(0, 0, 0, .5);
+}
+
+.cursor-ring.lens video {
+    opacity: 1;
+}
+
+.cursor-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-family: var(--label-font);
+    font-size: .7rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--accent);
+    padding: .3rem .6rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+.cursor-ring.lens .cursor-label {
+    opacity: 1;
+}
+
 /* respect people who turned animations off */
 @media (prefers-reduced-motion: reduce) {
     *,

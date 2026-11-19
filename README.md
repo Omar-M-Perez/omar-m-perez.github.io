@@ -18,8 +18,18 @@ My design portfolio. Hand-coded in plain HTML, CSS and JavaScript (no frameworks
 - **Live status bar** - Toronto clock with EST/EDT and an availability dot
 - **Magnetic buttons** - main buttons lean toward the cursor within 40px, max 6px
 - **Filters** - the work grid and the More work page fade/shrink out instead of just disappearing
-- **Lightbox** - click any photo series, film clip or print piece, arrow keys to flip through
+- **3D card stack** - click any photo series, film clip or print piece. Frames fan out in 3D, drag / scroll / arrow keys / dots to flip, click a side card to pull it forward
 - **Full film player** - the whole NIL short film plays right on the homepage
+
+### Motion layer (`js/motion.js`)
+
+No libraries. One shared `requestAnimationFrame` loop that sleeps when nothing is moving, a small spring solver (`stiffness` / `damping`), and only transform / opacity changes so it stays on the gpu.
+
+- **Hero morph** - Photo / Film / Print switch. ~480 dots each on their own spring become a glass aperture (soft, elastic), a film strip that scatters from the cursor (loose) or a rotating wireframe page with its grid (stiff, rigid). Cycles on its own until you pick one, pauses when off screen
+- **Card to case study morph** - the card's image and title spring out and land on the real case study title and cover in the drawer, then hand over
+- **Liquid photos** - one shared WebGL canvas redraws the hovered photo with a ripple and an RGB split that follow how fast the cursor moves
+- **Lens cursor** - dot + spring ring that stretches with speed, wraps around buttons and opens into a playing clip over film work. Mouse / trackpad only
+- Everything turns off with reduced motion, and the touch-only bits are skipped on phones
 
 ## Colour tokens
 

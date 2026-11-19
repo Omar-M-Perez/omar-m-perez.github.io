@@ -80,7 +80,18 @@
                         <a class="btn magnetic" href="#photography">See the photography</a>
                     </div>
                 </div>
-                <img class="hero-logo" src="images/logo-3d.png" alt="Omar El Sadek logo, a red and black 3D mark">
+                <!-- one shape, three moods. motion.js draws it and springs between them -->
+                <div class="hero-stage reveal" data-mode="photo">
+                    <canvas class="morph-canvas" aria-hidden="true"></canvas>
+                    <div class="glass-lens" aria-hidden="true"></div>
+                    <p class="stage-caption label"><span>Photo</span> &mdash; light through glass</p>
+                    <div class="mode-switch" role="tablist" aria-label="What I work in">
+                        <span class="mode-pill" aria-hidden="true"></span>
+                        <button role="tab" data-mode="photo" aria-selected="true">Photo</button>
+                        <button role="tab" data-mode="film" aria-selected="false">Film</button>
+                        <button role="tab" data-mode="print" aria-selected="false">Print</button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -122,7 +133,7 @@
                             <div class="foot"><span class="metric">5 senses &middot; 1 city</span><span class="open-hint">Open case &rarr;</span></div>
                         </div>
                     </a>
-                    <a class="bento-card span-7 reveal" href="projects/nil.html" data-case data-cat="film">
+                    <a class="bento-card span-7 reveal" href="projects/nil.html" data-case data-cat="film" data-preview="media/nil-loop.mp4">
                         <div class="thumb"><img src="images/nil/nil-00.jpg" alt="NIL title card in a dark forest" loading="lazy"></div>
                         <div class="body">
                             <div class="top"><h3>NIL</h3></div>
@@ -149,7 +160,7 @@
                             <div class="foot"><span class="metric">15-slide brand deck</span><span class="open-hint">Open case &rarr;</span></div>
                         </div>
                     </a>
-                    <a class="bento-card span-7 reveal" href="projects/compositing.html" data-case data-cat="film">
+                    <a class="bento-card span-7 reveal" href="projects/compositing.html" data-case data-cat="film" data-preview="media/gs-after.mp4">
                         <div class="thumb"><img src="images/compositing-split.jpg" alt="Split frame of raw green screen and finished composite" loading="lazy"></div>
                         <div class="body">
                             <div class="top"><h3>Compositing: Before / After</h3></div>
@@ -411,5 +422,6 @@
     </div>
 
     <script src="js/main.js"></script>
+    <script src="js/motion.js"></script>
 </body>
 </html>

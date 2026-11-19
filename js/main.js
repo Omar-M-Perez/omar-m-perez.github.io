@@ -503,7 +503,8 @@ if (lightbox) {
 
 // cards lean toward the pointer and a soft light follows it. skipped on touch and when motion is off
 if (matchMedia("(hover: hover)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    $$(".tile, .bento-card").forEach(el => {
+    // photo tiles skip this, they get the liquid shader from motion.js instead
+    $$(".tile:not(.shoots .tile), .bento-card").forEach(el => {
         el.addEventListener("pointermove", e => {
             const r = el.getBoundingClientRect();
             const px = (e.clientX - r.left) / r.width;
@@ -670,6 +671,8 @@ $$("[data-case]").forEach(card => {
         // ctrl/cmd click still opens the real page in a new tab
         if (e.metaKey || e.ctrlKey || e.shiftKey) return;
         e.preventDefault();
+        // motion.js flies the card's image and title into the drawer header first
+        if (typeof morphToDrawer === "function") morphToDrawer(card);
         openDrawer(card.getAttribute("href"), card);
     });
 });
