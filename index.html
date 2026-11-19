@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omar El Sadek | Photography, Film &amp; Design</title>
+    <meta name="description" content="Omar El Sadek is a Toronto photographer, filmmaker and designer working across photography, videography, print, branding and motion.">
+    <link rel="icon" href="images/logo-3d-small.png">
+
+    <!-- apply the saved theme before anything paints so there's no flash of the wrong colours -->
+    <script>
+        // tiny early version of the theme loader in main.js (stops a flash of the default colours)
+        try {
+            var t = JSON.parse(localStorage.getItem("theme"));
+            if (t && t.tokens) {
+                var k = ["--bg-canvas", "--bg-surface", "--text-primary", "--accent"];
+                k.forEach(function (name, i) { document.documentElement.style.setProperty(name, t.tokens[i]); });
+            }
+        } catch (e) {}
+    </script>
+
+    <!-- fonts: Poppins for headings, Inter for body, JetBrains Mono for labels and data -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- my stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a class="skip" href="#work">Skip to work</a>
+
+    <!-- Utility Bar -->
+    <div class="utility-bar">
+        <div class="wrap">
+            <span class="status"><span class="status-dot"></span><span class="long">Open to placements &amp; freelance</span><span class="short">Open to work</span></span>
+            <span class="clock" aria-live="off">Toronto --:--:--</span>
+            <span class="hide-sm"><a href="mailto:ompel-sadek@myseneca.ca">ompel-sadek@myseneca.ca</a></span>
+        </div>
+    </div>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="wrap">
+            <a class="brand" href="#top"><img src="images/logo-3d-small.png" alt="">Omar El Sadek</a>
+
+            <nav class="nav" aria-label="Main">
+                <a href="#work"><span>01</span>Work</a>
+                <a href="#photography"><span>02</span>Photography</a>
+                <a href="#film"><span>03</span>Film</a>
+                <a href="#print"><span>04</span>Print</a>
+                <a href="#about"><span>05</span>About</a>
+                <a href="#contact"><span>06</span>Contact</a>
+            </nav>
+
+            <div class="header-tools">
+                <button class="icon-btn theme-toggle" aria-label="Switch light and dark theme">
+                    <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                </button>
+                <button class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false">
+                    <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="wrap">
+                <div>
+                    <p class="label kicker reveal">Omar El Sadek &mdash; photographer, filmmaker &amp; designer, Toronto</p>
+                    <h1 class="reveal">Design that starts with <em>people</em> and ends with a <em>story</em>.</h1>
+                    <p class="hero-intro reveal">I'm an Interactive Media Design student at Seneca Polytechnic with a BSc in Creative Computing. I work behind a camera, in print and in motion: <strong>photography, videography, print design and branding</strong>, always starting with the people it's for and the story worth telling.</p>
+                    <div class="hero-actions reveal">
+                        <a class="btn primary magnetic" href="#work">Explore selected work &darr;</a>
+                        <a class="btn magnetic" href="#photography">See the photography</a>
+                    </div>
+                </div>
+                <img class="hero-logo" src="images/logo-3d.png" alt="Omar El Sadek logo, a red and black 3D mark">
+            </div>
+        </section>
+
+        <!-- Disciplines Marquee -->
+        <!-- every word is a link, the loop is written twice so it looks seamless (the second copy is hidden from screen readers) -->
+        <nav class="marquee" aria-label="Disciplines">
+            <div class="marquee-track">
+                <a href="#photography">Photography</a><a href="#film">Videography</a><a href="#photography">Camera Work</a><a href="#print">Print &amp; Type</a><a href="#work">Branding</a><a href="#film">Motion &amp; VFX</a><a href="#work">UI/UX</a><a href="more.html">3D &amp; Sound</a>
+                <a href="#photography" aria-hidden="true" tabindex="-1">Photography</a><a href="#film" aria-hidden="true" tabindex="-1">Videography</a><a href="#photography" aria-hidden="true" tabindex="-1">Camera Work</a><a href="#print" aria-hidden="true" tabindex="-1">Print &amp; Type</a><a href="#work" aria-hidden="true" tabindex="-1">Branding</a><a href="#film" aria-hidden="true" tabindex="-1">Motion &amp; VFX</a><a href="#work" aria-hidden="true" tabindex="-1">UI/UX</a><a href="more.html" aria-hidden="true" tabindex="-1">3D &amp; Sound</a>
+            </div>
+        </nav>
+
+        <!-- 01 Selected Work (bento grid) -->
+        <section class="section" id="work">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <div>
+                        <p class="label"><span class="num">01</span> / Selected work</p>
+                        <h2>Case studies</h2>
+                    </div>
+                    <p>Six projects, start to finish. Click one to open it right here without leaving the page.</p>
+                </div>
+
+                <div class="filters" id="work-filters" role="group" aria-label="Filter case studies">
+                    <button class="filter active" data-filter="all" aria-pressed="true">All</button>
+                    <button class="filter" data-filter="photo" aria-pressed="false">Photography</button>
+                    <button class="filter" data-filter="film" aria-pressed="false">Film &amp; VFX</button>
+                    <button class="filter" data-filter="brand" aria-pressed="false">Print &amp; Brand</button>
+                    <button class="filter" data-filter="ux" aria-pressed="false">UX/UI</button>
+                </div>
+
+                <div class="bento">
+                    <a class="bento-card span-5 reveal" href="projects/five-senses.html" data-case data-cat="photo">
+                        <div class="thumb"><img src="images/five-senses/sight.jpg" alt="CN Tower framed through a doughnut" loading="lazy"></div>
+                        <div class="body">
+                            <div class="top"><h3>Five Senses of Toronto</h3></div>
+                            <span class="label">Photography &middot; Series</span>
+                            <p>Five senses, one city at night: a photo series shot around Toronto.</p>
+                            <div class="foot"><span class="metric">5 senses &middot; 1 city</span><span class="open-hint">Open case &rarr;</span></div>
+                        </div>
+                    </a>
+                    <a class="bento-card span-7 reveal" href="projects/nil.html" data-case data-cat="film">
+                        <div class="thumb"><img src="images/nil/nil-00.jpg" alt="NIL title card in a dark forest" loading="lazy"></div>
+                        <div class="body">
+                            <div class="top"><h3>NIL</h3></div>
+                            <span class="label">Cinematography &middot; Post</span>
+                            <p>A short horror film where I filmed and framed every single shot.</p>
+                            <div class="foot"><span class="metric">3:20 short film</span><span class="open-hint">Open case &rarr;</span></div>
+                        </div>
+                    </a>
+                    <a class="bento-card span-5 reveal" href="projects/otuka.html" data-case data-cat="brand">
+                        <div class="thumb"><img src="images/otuka/album-art.jpg" alt="Open Your Eyes album art" loading="lazy"></div>
+                        <div class="body">
+                            <div class="top"><h3>Otuka &mdash; Open Your Eyes</h3></div>
+                            <span class="label">Typography &middot; Packaging</span>
+                            <p>Album packaging where the type becomes the image, carried across four formats.</p>
+                            <div class="foot"><span class="metric">4 release formats</span><span class="open-hint">Open case &rarr;</span></div>
+                        </div>
+                    </a>
+                    <a class="bento-card span-7 reveal" href="projects/aria.html" data-case data-cat="brand">
+                        <div class="thumb"><img src="images/aria/website.jpg" alt="ARIA website and app mockups" loading="lazy"></div>
+                        <div class="body">
+                            <div class="top"><h3>ARIA Athletic Apparel</h3></div>
+                            <span class="label">Brand identity &middot; Campaign &middot; Print</span>
+                            <p>A team brand for outdoor apparel, built from research and a persona up to a guidelines book and website.</p>
+                            <div class="foot"><span class="metric">15-slide brand deck</span><span class="open-hint">Open case &rarr;</span></div>
+                        </div>
+                    </a>
+                    <a class="bento-card span-7 reveal" href="projects/compositing.html" data-case data-cat="film">
+                        <div class="thumb"><img src="images/compositing-split.jpg" alt="Split frame of raw green screen and finished composite" loading="lazy"></div>
+                        <div class="body">
+                            <div class="top"><h3>Compositing: Before / After</h3></div>
+                            <span class="label">VFX &middot; After Effects</span>
+                            <p>Raw green-screen and plate footage next to the finished composites. Open it and drag the slider.</p>
+                            <div class="foot"><span class="metric">2 live before/after reveals</span><span class="open-hint">Open case &rarr;</span></div>
+                        </div>
+                    </a>
+                    <a class="bento-card span-5 reveal" href="projects/boncafe.html" data-case data-cat="ux">
+                        <div class="thumb"><img src="images/boncafe/cover.jpg" alt="Three Boncafe app screens" loading="lazy"></div>
+                        <div class="body">
+                            <div class="top"><h3>Boncaf&eacute;</h3></div>
+                            <span class="label">Mobile app &middot; UI design</span>
+                            <p>A coffee-machine repair booking app, taken from lo-fi wireframes to hi-fi screens.</p>
+                            <div class="foot"><span class="metric">Lo-fi &rarr; hi-fi</span><span class="open-hint">Open case &rarr;</span></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 Photography -->
+        <section class="section" id="photography">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <div>
+                        <p class="label"><span class="num">02</span> / Photography</p>
+                        <h2>Behind the camera</h2>
+                    </div>
+                    <p>Night work, natural-light portraits, events and tonal studies. Click a series to flip through every frame.</p>
+                </div>
+
+                <div class="gallery shoots">
+                <button class="tile" data-cat="photo" data-full="images/five-senses/sight.jpg, images/five-senses/smell.jpg, images/five-senses/sound.jpg, images/five-senses/taste.jpg, images/five-senses/touch.jpg" data-desc="One city at night, shot as five frames: sight, smell, sound, taste and touch.">
+                    <div class="media"><img src="images/five-senses/sight.jpg" alt="Five Senses of Toronto" loading="lazy"><span class="badge">5 FRAMES</span></div>
+                    <div class="cap"><h3>Five Senses of Toronto</h3><p>One city at night, shot as five frames: sight, smell, sound, taste and touch.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/e30-2.jpg, images/gallery/e30-3.jpg, images/gallery/e30-4.jpg, images/gallery/e30-1.jpg" data-desc="Night photo series lit around one car.">
+                    <div class="media"><img src="images/gallery/e30-2.jpg" alt="E30 M3 at Midnight" loading="lazy"><span class="badge">4 FRAMES</span></div>
+                    <div class="cap"><h3>E30 M3 at Midnight</h3><p>Night photo series lit around one car.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/portrait-3.jpg, images/gallery/portrait-1.jpg, images/gallery/portrait-2.jpg" data-desc="Natural light and reflector portraits.">
+                    <div class="media"><img src="images/gallery/portrait-3.jpg" alt="Portraits" loading="lazy"><span class="badge">3 FRAMES</span></div>
+                    <div class="cap"><h3>Portraits</h3><p>Natural light and reflector portraits.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/event-3.jpg, images/gallery/event-1.jpg, images/gallery/event-2.jpg" data-desc="Candid shots from an event shoot, March 2026.">
+                    <div class="media"><img src="images/gallery/event-3.jpg" alt="Event Coverage" loading="lazy"><span class="badge">3 FRAMES</span></div>
+                    <div class="cap"><h3>Event Coverage</h3><p>Candid shots from an event shoot, March 2026.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/dof-2.jpg, images/gallery/dof-1.jpg" data-desc="Same subjects, shallow vs deep focus.">
+                    <div class="media"><img src="images/gallery/dof-2.jpg" alt="Depth of Field" loading="lazy"><span class="badge">2 FRAMES</span></div>
+                    <div class="cap"><h3>Depth of Field</h3><p>Same subjects, shallow vs deep focus.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/ww-1.jpg, images/gallery/ww-2.jpg" data-desc="Tonal still life exercise.">
+                    <div class="media"><img src="images/gallery/ww-1.jpg" alt="White on White, Black on Black" loading="lazy"><span class="badge">2 FRAMES</span></div>
+                    <div class="cap"><h3>White on White, Black on Black</h3><p>Tonal still life exercise.</p></div>
+                </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03 Film and motion -->
+        <section class="section" id="film">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <div>
+                        <p class="label"><span class="num">03</span> / Film &amp; motion</p>
+                        <h2>Shot, cut and composited</h2>
+                    </div>
+                    <p>I film, frame and edit. Starting with a short film, then the post-production work on top of footage.</p>
+                </div>
+
+                <!-- the big player: full short film -->
+                <div class="film-feature reveal">
+                    <video src="media/nil-film.mp4" poster="images/nil/nil-00.jpg" controls preload="none" playsinline aria-label="NIL, the full short film"></video>
+                    <div class="film-info">
+                        <span class="label">Short film &middot; 3:20</span>
+                        <h3>NIL</h3>
+                        <p>A horror short shot in the woods at dusk. I filmed and framed every shot, helped direct and worked on the edit in post.</p>
+                        <a class="btn magnetic" href="projects/nil.html" data-case>Read the case study &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="gallery reel">
+                <button class="tile" data-cat="film" data-full="media/career-fair.mp4" data-desc="Posters, banners and a 300+ badge tracked into moving camera shots.">
+                    <div class="media"><img src="media/career-fair.jpg" alt="Career Fair promo" loading="lazy"><span class="badge">VIDEO</span></div>
+                    <div class="cap"><h3>Career Fair promo</h3><p>Posters, banners and a 300+ badge tracked into moving camera shots.</p></div>
+                </button>
+                <button class="tile" data-cat="film" data-full="media/disappear-vfx.mp4" data-desc="After Effects VFX: a person vanishes from a live-action shot.">
+                    <div class="media"><img src="media/disappear-vfx.jpg" alt="Disappear" loading="lazy"><span class="badge">VIDEO</span></div>
+                    <div class="cap"><h3>Disappear</h3><p>After Effects VFX: a person vanishes from a live-action shot.</p></div>
+                </button>
+                <button class="tile" data-cat="film" data-full="media/green-screen.mp4" data-desc="Keyed green-screen footage composited into a new location.">
+                    <div class="media"><img src="media/green-screen.jpg" alt="Green Screen Run" loading="lazy"><span class="badge">VIDEO</span></div>
+                    <div class="cap"><h3>Green Screen Run</h3><p>Keyed green-screen footage composited into a new location.</p></div>
+                </button>
+                <button class="tile" data-cat="film" data-full="media/sky-replace.mp4" data-desc="Tracked sky replacement and colour match.">
+                    <div class="media"><img src="media/sky-replace.jpg" alt="Sky Replacement" loading="lazy"><span class="badge">VIDEO</span></div>
+                    <div class="cap"><h3>Sky Replacement</h3><p>Tracked sky replacement and colour match.</p></div>
+                </button>
+                <button class="tile" data-cat="film" data-full="media/disintegrate.mp4" data-desc="Particle disintegration composite.">
+                    <div class="media"><img src="media/disintegrate.jpg" alt="Disintegration" loading="lazy"><span class="badge">VIDEO</span></div>
+                    <div class="cap"><h3>Disintegration</h3><p>Particle disintegration composite.</p></div>
+                </button>
+                <button class="tile" data-cat="film" data-full="media/shape-morph.mp4" data-desc="Motion piece where shapes morph to carry the message.">
+                    <div class="media"><img src="media/shape-morph.jpg" alt="Visual Rhetoric: Shape Morph" loading="lazy"><span class="badge">VIDEO</span></div>
+                    <div class="cap"><h3>Visual Rhetoric: Shape Morph</h3><p>Motion piece where shapes morph to carry the message.</p></div>
+                </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04 Print and editorial -->
+        <section class="section" id="print">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <div>
+                        <p class="label"><span class="num">04</span> / Print &amp; type</p>
+                        <h2>Made to be held</h2>
+                    </div>
+                    <p>Packaging, magazines, brand books and flyers. Click any piece to see every page.</p>
+                </div>
+
+                <div class="gallery prints">
+                <button class="tile" data-cat="print" data-full="images/otuka/album-art.jpg, images/otuka/poster.jpg, images/otuka/vinyl.jpg, images/otuka/spotify.jpg" data-desc="Album packaging where the type becomes the image, across four formats.">
+                    <div class="media"><img src="images/otuka/album-art.jpg" alt="Open Your Eyes: packaging" loading="lazy"><span class="badge">4 FORMATS</span></div>
+                    <div class="cap"><h3>Open Your Eyes: packaging</h3><p>Album packaging where the type becomes the image, across four formats.</p></div>
+                </button>
+                <button class="tile" data-cat="print" data-full="images/gallery/drake-1.jpg, images/gallery/drake-2.jpg, images/gallery/drake-3.jpg" data-desc="Magazine feature and tabloid layout built in InDesign.">
+                    <div class="media"><img src="images/gallery/drake-2.jpg" alt="How Did Drake Become the World's Biggest Pop Star?" loading="lazy"></div>
+                    <div class="cap"><h3>How Did Drake Become the World's Biggest Pop Star?</h3><p>Magazine feature and tabloid layout built in InDesign.</p></div>
+                </button>
+                <button class="tile" data-cat="print" data-full="images/aria/b-guidlines.jpg, images/aria/b-guidlines-2.jpg, images/aria/content-book.jpg, images/aria/logo-color-sys.jpg" data-desc="The printed rulebook for a team-built outdoor apparel identity.">
+                    <div class="media"><img src="images/aria/b-guidlines.jpg" alt="ARIA brand guidelines book" loading="lazy"></div>
+                    <div class="cap"><h3>ARIA brand guidelines book</h3><p>The printed rulebook for a team-built outdoor apparel identity.</p><span class="note">Team project</span></div>
+                </button>
+                <button class="tile" data-cat="print" data-full="images/gallery/pm-travel-3.jpg, images/gallery/pm-travel-1.jpg, images/gallery/pm-travel-2.jpg" data-desc="Flyers and social posters for a travel and immigration consultancy in Dubai.">
+                    <div class="media"><img src="images/gallery/pm-travel-3.jpg" alt="PM Travel &amp; Immigration" loading="lazy"></div>
+                    <div class="cap"><h3>PM Travel &amp; Immigration</h3><p>Flyers and social posters for a travel and immigration consultancy in Dubai.</p><span class="note">Client work</span></div>
+                </button>
+                <button class="tile" data-cat="print" data-full="images/gallery/caslon-1.jpg, images/gallery/caslon-2.jpg" data-desc="Type classification deck tracing three typefaces through history.">
+                    <div class="media"><img src="images/gallery/caslon-2.jpg" alt="Caslon, Gill Sans &amp; Sabon" loading="lazy"></div>
+                    <div class="cap"><h3>Caslon, Gill Sans &amp; Sabon</h3><p>Type classification deck tracing three typefaces through history.</p></div>
+                </button>
+                <button class="tile" data-cat="print" data-full="images/gallery/psa-1.jpg" data-desc="Public safety ad layout.">
+                    <div class="media"><img src="images/gallery/psa-1.jpg" alt="What Goes Up Must Come Back Down" loading="lazy"></div>
+                    <div class="cap"><h3>What Goes Up Must Come Back Down</h3><p>Public safety ad layout.</p><span class="note">Student concept</span></div>
+                </button>
+                </div>
+
+                <p class="more-link reveal">Class projects, UX concepts, 3D and sound experiments live on their own page. <a class="btn magnetic" href="more.html">More work &rarr;</a></p>
+            </div>
+        </section>
+
+        <!-- 04 About -->
+        <section class="section" id="about">
+            <div class="wrap about-grid">
+                <figure class="about-portrait reveal">
+                    <img src="images/gallery/lowpoly-1.jpg" alt="Low-poly illustrated self-portrait of Omar">
+                    <figcaption class="label">Low-poly self-portrait, Illustrator</figcaption>
+                </figure>
+
+                <div class="reveal">
+                    <p class="label"><span class="num">05</span> / About</p>
+                    <div class="about-text">
+                        <p>I grew up in the UAE around people from everywhere, and I think that's why I care so much about who a design is actually for.</p>
+                        <p>I finished a BSc in Creative Computing at Bath Spa University in Ras Al Khaimah, then moved to Toronto on my own to study Interactive Media Design at Seneca Polytechnic. I don't want to be boxed in as just a UI/UX designer. UI/UX is one tool, next to branding, print, photography, film and sound.</p>
+                        <p>Off the screen you'll find me behind a camera. I filmed and framed every shot of a short horror film, and I shoot portraits, cars at night and events whenever I can.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience + Capabilities (part of the about section, so it keeps 05) -->
+        <section class="section" id="experience">
+            <div class="wrap">
+                <div class="section-head reveal">
+                    <div>
+                        <p class="label">Experience</p>
+                        <h2>Where I've been, what I use</h2>
+                    </div>
+                </div>
+
+                <div class="matrix">
+                    <ol class="timeline reveal">
+                        <li>
+                            <span class="years">2025 &mdash; Now</span>
+                            <h3>Interactive Media Design</h3>
+                            <span class="org">Seneca Polytechnic, Toronto</span>
+                            <p>Photography, video, branding, motion, sound and 3D, all in one program.</p>
+                        </li>
+                        <li>
+                            <span class="years">2025 &mdash; Now</span>
+                            <h3>Customer Service Staff (Part-Time)</h3>
+                            <span class="org">Seneca Recreation</span>
+                            <p>Front desk of a busy campus facility. People first, every shift.</p>
+                        </li>
+                        <li>
+                            <span class="years">2024 &mdash; 2025</span>
+                            <h3>UI/UX &amp; Merchandise Designer</h3>
+                            <span class="org">HODDLE Studios</span>
+                            <p>Designed COMMUHELP's interfaces, the studio site and a merch line, and facilitated a six-person crew.</p>
+                        </li>
+                        <li>
+                            <span class="years">2023 &mdash; 2024</span>
+                            <h3>Lead UI Designer</h3>
+                            <span class="org">Boncafé (team project)</span>
+                            <p>Took a repair-booking app from lo-fi wireframes to hi-fi screens.</p>
+                        </li>
+                        <li>
+                            <span class="years">2021 &mdash; 2024</span>
+                            <h3>BSc (Hons) Creative Computing</h3>
+                            <span class="org">Bath Spa University, Ras Al Khaimah</span>
+                        </li>
+                    </ol>
+
+                    <div class="craft reveal">
+                        <div class="craft-group">
+                            <h3>Photography &amp; Video</h3>
+                            <div class="chips"><span>Photography</span><span>Videography</span><span>Cinematography</span><span>Lighting &amp; framing</span><span>Video editing</span><span>Colour matching</span><span>Premiere Pro</span><span>Lightroom</span><span>Photoshop</span></div>
+                        </div>
+                        <div class="craft-group">
+                            <h3>Print &amp; Brand</h3>
+                            <div class="chips"><span>Identity systems</span><span>Typography</span><span>Editorial layout</span><span>Packaging</span><span>Illustrator</span><span>InDesign</span><span>Photoshop</span></div>
+                        </div>
+                        <div class="craft-group">
+                            <h3>Motion, Sound &amp; UI/UX</h3>
+                            <div class="chips"><span>Compositing &amp; VFX</span><span>Sound design</span><span>3D modelling</span><span>User research</span><span>Wireframes &rarr; hi-fi</span><span>After Effects</span><span>Audition</span><span>Blender</span><span>Figma</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05 Contact -->
+        <section class="cta" id="contact">
+            <div class="wrap reveal">
+                <p class="label"><span class="num">06</span> / Contact</p>
+                <a class="big-link" href="mailto:ompel-sadek@myseneca.ca">Start a conversation <span class="arrow">&rarr;</span></a>
+                <div class="cta-row">
+                    <button class="btn primary magnetic copy-btn">
+                        <svg class="copy-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+                        <svg class="tick" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+                        <span class="copy-label">Copy email</span>
+                    </button>
+                    <a class="btn magnetic" href="assets/Omar-El-Sadek-Resume.pdf" target="_blank" rel="noopener">Resume (PDF) &darr;</a>
+                    <span class="label">ompel-sadek@myseneca.ca</span>
+                </div>
+                <nav class="socials" aria-label="Elsewhere">
+                    <a href="https://www.linkedin.com/in/omar-el-sadek-090aba210" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+                    <a href="mailto:omarelsadek1994@gmail.com">Gmail &#8599;</a>
+                </nav>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="wrap">
+            <span class="label">&copy; <span class="year"></span> Omar El Sadek</span>
+            <a class="label" href="more.html">More work &rarr;</a>
+        </div>
+    </footer>
+
+    <!-- Lightbox (filled in by main.js) -->
+    <div class="lightbox" role="dialog" aria-modal="true" aria-label="Project preview">
+        <span class="lb-count"></span>
+        <button class="lb-btn lb-close" aria-label="Close">&times;</button>
+        <button class="lb-btn lb-prev" aria-label="Previous">&larr;</button>
+        <button class="lb-btn lb-next" aria-label="Next">&rarr;</button>
+        <figure>
+            <div class="lb-stage"></div>
+            <figcaption></figcaption>
+        </figure>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

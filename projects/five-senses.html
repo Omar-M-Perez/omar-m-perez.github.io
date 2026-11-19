@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Five Senses of Toronto | Omar El Sadek</title>
+    <meta name="description" content="A photography series showing sight, sound, smell, taste and touch in single images.">
+    <link rel="icon" href="../images/logo-3d-small.png">
+
+    <script>
+        // tiny early version of the theme loader in main.js (stops a flash of the default colours)
+        try {
+            var t = JSON.parse(localStorage.getItem("theme"));
+            if (t && t.tokens) {
+                var k = ["--bg-canvas", "--bg-surface", "--text-primary", "--accent"];
+                k.forEach(function (name, i) { document.documentElement.style.setProperty(name, t.tokens[i]); });
+            }
+        } catch (e) {}
+    </script>
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- my stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Utility Bar -->
+    <div class="utility-bar">
+        <div class="wrap">
+            <span class="status"><span class="status-dot"></span><span class="long">Open to placements &amp; freelance</span><span class="short">Open to work</span></span>
+            <span class="clock" aria-live="off">Toronto --:--:--</span>
+            <span class="hide-sm"><a href="mailto:ompel-sadek@myseneca.ca">ompel-sadek@myseneca.ca</a></span>
+        </div>
+    </div>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="wrap">
+            <a class="brand" href="../index.html"><img src="../images/logo-3d-small.png" alt="">Omar El Sadek</a>
+
+            <nav class="nav" aria-label="Main">
+                <a href="../index.html#work"><span>01</span>Work</a>
+                <a href="../index.html#photography"><span>02</span>Photography</a>
+                <a href="../index.html#film"><span>03</span>Film</a>
+                <a href="../index.html#print"><span>04</span>Print</a>
+                <a href="../index.html#about"><span>05</span>About</a>
+                <a href="../index.html#contact"><span>06</span>Contact</a>
+            </nav>
+
+            <div class="header-tools">
+                <button class="icon-btn theme-toggle" aria-label="Switch light and dark theme">
+                    <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                </button>
+                <button class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false">
+                    <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <!-- everything inside .case-content is what the homepage drawer loads -->
+        <article class="case-content">
+        <a class="back label" href="../index.html#work">&larr; All work</a>
+
+        <!-- Project Intro -->
+        <section class="case-hero">
+            <p class="label reveal"><span class="num">01</span> / Case study</p>
+            <h1 class="reveal">Five Senses of Toronto</h1>
+            <p class="lede reveal">Can a photo make you hear something? Or taste it? This series tries to put each of the five senses into a single frame, all shot around Toronto at night, with the CN Tower showing up as a thread through the set.</p>
+            <div class="meta-row reveal">
+                <div><span class="label">Role</span>Photography, editing, layout</div>
+                <div><span class="label">Team</span>Solo</div>
+                <div><span class="label">Tools</span>Canon DSLR, Lightroom, Photoshop, Illustrator</div>
+                <div><span class="label">When</span>2025 &middot; INM102 Digital Photography</div>
+            </div>
+        </section>
+        <div class="case-cover reveal"><img src="../images/five-senses/five-senses-intro.jpg" alt="Five Senses series intro"></div>
+
+        <section class="case-block">
+            <div class="text reveal">
+                <h2>Sight &amp; sound</h2>
+                <div><p>For sight, the CN Tower is framed through the hole of a doughnut, so your eye has to look <em>through</em> something to find it. For sound, a street guitarist stays sharp while the people rushing past blur out, so the music feels like the only still thing on the street.</p></div>
+            </div>
+            <div class="shots two">
+                <figure class="reveal"><img src="../images/five-senses/sight.jpg" alt="Sight" loading="lazy"><figcaption>Sight</figcaption></figure>
+                <figure class="reveal"><img src="../images/five-senses/sound.jpg" alt="Sound" loading="lazy"><figcaption>Sound</figcaption></figure>
+            </div>
+        </section>
+
+        <section class="case-block">
+            <div class="text reveal">
+                <h2>Smell, taste &amp; touch</h2>
+                <div><p>Smell is the side of the city nobody puts on a postcard: overflowing bins in a dark alley. Taste brings the doughnuts back up close with the tower glowing behind them, and touch is a tattooed hand gripping the pole on a subway ride.</p></div>
+            </div>
+            <div class="shots three">
+                <figure class="reveal"><img src="../images/five-senses/smell.jpg" alt="Smell" loading="lazy"><figcaption>Smell</figcaption></figure>
+                <figure class="reveal"><img src="../images/five-senses/taste.jpg" alt="Taste" loading="lazy"><figcaption>Taste</figcaption></figure>
+                <figure class="reveal"><img src="../images/five-senses/touch.jpg" alt="Touch" loading="lazy"><figcaption>Touch</figcaption></figure>
+            </div>
+        </section>
+
+        <section class="case-block">
+            <div class="text reveal">
+                <h2>Closing the set</h2>
+                <div><p>The set opens on a street at dusk and closes looking straight up at the CN Tower at night, so it reads like one evening in the city from start to finish.</p></div>
+            </div>
+            <div class="shots ">
+                <figure class="reveal"><img src="../images/five-senses/five-senses-outro.jpg" alt="Series outro" loading="lazy"><figcaption>Series outro</figcaption></figure>
+            </div>
+        </section>
+
+        <!-- Next Project -->
+        <a class="next-project" href="nil.html">
+            <p class="label">Next project &rarr;</p>
+            <h2>NIL</h2>
+        </a>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="wrap">
+            <span class="label">&copy; <span class="year"></span> Omar El Sadek</span>
+            <a class="label" href="mailto:ompel-sadek@myseneca.ca">ompel-sadek@myseneca.ca</a>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

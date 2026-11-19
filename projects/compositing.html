@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compositing: Before / After | Omar El Sadek</title>
+    <meta name="description" content="Before and after sliders of Omar's After Effects compositing: green screen keying and sky replacement.">
+    <link rel="icon" href="../images/logo-3d-small.png">
+
+    <script>
+        // tiny early version of the theme loader in main.js (stops a flash of the default colours)
+        try {
+            var t = JSON.parse(localStorage.getItem("theme"));
+            if (t && t.tokens) {
+                var k = ["--bg-canvas", "--bg-surface", "--text-primary", "--accent"];
+                k.forEach(function (name, i) { document.documentElement.style.setProperty(name, t.tokens[i]); });
+            }
+        } catch (e) {}
+    </script>
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- my stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Utility Bar -->
+    <div class="utility-bar">
+        <div class="wrap">
+            <span class="status"><span class="status-dot"></span><span class="long">Open to placements &amp; freelance</span><span class="short">Open to work</span></span>
+            <span class="clock" aria-live="off">Toronto --:--:--</span>
+            <span class="hide-sm"><a href="mailto:ompel-sadek@myseneca.ca">ompel-sadek@myseneca.ca</a></span>
+        </div>
+    </div>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="wrap">
+            <a class="brand" href="../index.html"><img src="../images/logo-3d-small.png" alt="">Omar El Sadek</a>
+
+            <nav class="nav" aria-label="Main">
+                <a href="../index.html#work"><span>01</span>Work</a>
+                <a href="../index.html#photography"><span>02</span>Photography</a>
+                <a href="../index.html#film"><span>03</span>Film</a>
+                <a href="../index.html#print"><span>04</span>Print</a>
+                <a href="../index.html#about"><span>05</span>About</a>
+                <a href="../index.html#contact"><span>06</span>Contact</a>
+            </nav>
+
+            <div class="header-tools">
+                <button class="icon-btn theme-toggle" aria-label="Switch light and dark theme">
+                    <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                </button>
+                <button class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false">
+                    <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <!-- everything inside .case-content is what the homepage drawer loads -->
+        <article class="case-content">
+        <a class="back label" href="../index.html#work">&larr; All work</a>
+
+        <!-- Project Intro -->
+        <section class="case-hero">
+            <p class="label reveal"><span class="num">04</span> / Case study</p>
+            <h1 class="reveal">Compositing: Before / After</h1>
+            <p class="lede reveal">The best compliment a composite can get is that nobody notices it. These are two After Effects pieces with the raw footage still attached. Drag the handle, or tab to it and use the arrow keys, to see what was shot and what was made.</p>
+            <div class="meta-row reveal">
+                <div><span class="label">Role</span>Keying, compositing, colour</div>
+                <div><span class="label">Team</span>Solo</div>
+                <div><span class="label">Tools</span>After Effects, Premiere Pro</div>
+                <div><span class="label">When</span>2026 &middot; Seneca</div>
+            </div>
+        </section>
+
+        <section class="case-block">
+            <div class="text reveal">
+                <h2>Green screen &rarr; country road</h2>
+                <div><p>A runner shot on a green screen, keyed out and dropped onto a dirt road. The hard part is selling it: matching the light direction, adding a shadow on the road and grading him into the scene so he doesn't look pasted on.</p></div>
+            </div>
+            <div class="compare reveal" aria-label="Green screen before and after">
+                <video src="../media/gs-after.mp4" poster="../media/gs-after.jpg" autoplay muted loop playsinline></video>
+                <div class="before"><video src="../media/gs-before.mp4" autoplay muted loop playsinline></video></div>
+                <span class="compare-tag left">Raw key</span>
+                <span class="compare-tag right">Composite</span>
+                <div class="compare-handle" role="slider" tabindex="0" aria-label="Drag to compare" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span>&harr;</span></div>
+            </div>
+        </section>
+
+        <section class="case-block">
+            <div class="text reveal">
+                <h2>Sky replacement</h2>
+                <div><p>A foggy valley plate with a flat, washed-out sky. I masked the sky out and replaced it with a dramatic sunset, then pulled the colour of the hills and fog toward it so the new light feels like it belongs.</p></div>
+            </div>
+            <div class="compare reveal" aria-label="Sky replacement before and after">
+                <video src="../media/sky-after.mp4" poster="../media/sky-after.jpg" autoplay muted loop playsinline></video>
+                <div class="before"><video src="../media/sky-before.mp4" autoplay muted loop playsinline></video></div>
+                <span class="compare-tag left">Original plate</span>
+                <span class="compare-tag right">Final</span>
+                <div class="compare-handle" role="slider" tabindex="0" aria-label="Drag to compare" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span>&harr;</span></div>
+            </div>
+        </section>
+
+        <section class="case-block">
+            <div class="text reveal">
+                <h2>Graphics tracked into footage</h2>
+                <div><p>A career-fair promo where the posters, banners and 300+ badge are tracked into moving camera shots so they sit in the space instead of floating over it.</p></div>
+            </div>
+            <div class="case-cover reveal"><video src="../media/career-fair.mp4" poster="../images/career-fair.jpg" controls preload="none" playsinline aria-label="Career fair motion graphics edit"></video></div>
+        </section>
+
+        <section class="case-block">
+            <div class="text reveal">
+                <h2>More film and motion</h2>
+                <div><p>The Disappear VFX, a particle disintegration and a shape-morph piece are in the Film &amp; motion section on the homepage.</p><p><a class="btn" href="../index.html#film">See the film reel &rarr;</a></p></div>
+            </div>
+            
+        </section>
+
+        <!-- Next Project -->
+        <a class="next-project" href="aria.html">
+            <p class="label">Next project &rarr;</p>
+            <h2>ARIA Athletic Apparel</h2>
+        </a>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="wrap">
+            <span class="label">&copy; <span class="year"></span> Omar El Sadek</span>
+            <a class="label" href="mailto:ompel-sadek@myseneca.ca">ompel-sadek@myseneca.ca</a>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

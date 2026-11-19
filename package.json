@@ -1,0 +1,11 @@
+{
+    "name": "omar-portfolio",
+    "version": "1.0.0",
+    "description": "Omar El Sadek - design portfolio",
+    "scripts": {
+        "start": "lite-server"
+    },
+    "devDependencies": {
+        "lite-server": "^2.6.1"
+    }
+}
