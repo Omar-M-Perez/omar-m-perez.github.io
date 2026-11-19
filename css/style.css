@@ -575,6 +575,7 @@ kbd {
 }
 
 .bento-card:hover {
+    transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-3px);
     border-color: var(--text-primary);
     box-shadow: var(--shadow);
 }
@@ -688,8 +689,38 @@ kbd {
 }
 
 .tile:hover {
-    transform: translateY(-3px);
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-3px);
     border-color: var(--text-primary);
+}
+
+/* soft light that follows the pointer across a tile or card */
+.tile::after,
+.bento-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, .18), transparent 50%);
+}
+
+.tile:hover::after,
+.bento-card:hover::after { opacity: 1; }
+
+.tile { position: relative; }
+
+/* thin progress line along the top of the page */
+.scroll-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 300;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
 }
 
 .tile[hidden] {
@@ -773,6 +804,34 @@ kbd {
 
 .reel {
     grid-template-columns: 1fr;
+}
+
+/* print pieces sit on an even grid: every thumb is the same shape, the lightbox shows the full piece */
+.prints {
+    columns: auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+.prints .tile {
+    margin-bottom: 0;
+}
+
+.prints .tile .media {
+    aspect-ratio: 4 / 5;
+}
+
+.prints .tile img {
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+@media (min-width: 1000px) {
+    .prints {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 .reel .tile .media {
@@ -1246,7 +1305,8 @@ kbd {
     position: fixed;
     inset: 0;
     z-index: 250;
-    background: color-mix(in srgb, var(--scrim) 94%, transparent);
+    background: color-mix(in srgb, var(--scrim) 97%, transparent);
+    backdrop-filter: blur(6px);
     display: none;
     place-items: center;
     padding: 4rem 1rem 1rem;
@@ -1257,19 +1317,92 @@ kbd {
 }
 
 .lightbox figure {
-    max-width: min(1200px, 100%);
+    width: 100%;
     max-height: 100%;
     display: grid;
     gap: .8rem;
 }
 
+/* the stack: cards sit in the same spot and get pushed back and sideways in 3d */
+.lb-stage {
+    position: relative;
+    height: 68vh;
+    perspective: 1400px;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.lb-stage.grab { cursor: grabbing; }
+
+.cf-card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    max-width: 72vw;
+    max-height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6);
+    transform: translate(-50%, -50%) translateX(var(--x, 0)) translateZ(var(--z, 0))
+        rotateY(calc(var(--r, 0deg) + var(--ty, 0deg))) rotateX(var(--tx, 0deg)) scale(var(--s, 1));
+    transition: transform .55s var(--ease), opacity .4s;
+    will-change: transform;
+}
+
+.cf-card:not(.active) { cursor: pointer; filter: brightness(.7); }
+
+.cf-card .glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, .28), transparent 55%);
+}
+
+.cf-card.active:hover .glare { opacity: 1; }
+
 .lightbox img,
 .lightbox video {
-    max-height: 78vh;
+    display: block;
+    max-height: 68vh;
+    max-width: 72vw;
     width: auto;
-    margin: 0 auto;
-    border-radius: 6px;
+    height: auto;
 }
+
+.lb-dots {
+    display: flex;
+    justify-content: center;
+    gap: .45rem;
+}
+
+.lb-dots button {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--bg-surface) 30%, transparent);
+    transition: background .3s, transform .3s;
+}
+
+.lb-dots button.on {
+    background: var(--accent);
+    transform: scale(1.4);
+}
+
+.lb-hint {
+    position: absolute;
+    bottom: .8rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--label-font);
+    font-size: .7rem;
+    color: var(--text-secondary);
+}
+
+.lightbox.single .lb-hint { display: none; }
 
 .lightbox figcaption {
     color: color-mix(in srgb, var(--bg-canvas) 70%, var(--text-primary));
@@ -1305,8 +1438,6 @@ kbd {
 }
 
 .lb-close { top: 1rem; right: 1rem; }
-.lb-prev { left: 1rem; top: 50%; }
-.lb-next { right: 1rem; top: 50%; }
 
 .lb-count {
     position: absolute;
@@ -1780,7 +1911,7 @@ kbd {
    ========================================================== */
 @media (min-width: 700px) {
     .shoots {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .reel {
@@ -1847,8 +1978,8 @@ kbd {
    Desktop
    ========================================================== */
 @media (min-width: 1000px) {
-    .reel {
-        grid-template-columns: repeat(3, 1fr);
+    .shoots {
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .film-feature {

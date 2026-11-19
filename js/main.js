@@ -366,20 +366,40 @@ const filterWork = setupFilters("#work-filters", ".bento-card");
 const filterPlay = setupFilters("#play-filters", ".tile");
 
 
-// ---------- lightbox ----------
+// ---------- lightbox (3d card stack) ----------
 
 const lightbox = $(".lightbox");
 let lbItems = [];
 let lbIndex = 0;
 let lastFocus = null;
+let lbCards = [];
 
-function showLightboxItem() {
-    const src = lbItems[lbIndex];
-    // videos get controls and autoplay, images just show
-    $(".lb-stage").innerHTML = src.endsWith(".mp4")
-        ? `<video src="${src}" controls autoplay playsinline></video>`
-        : `<img src="${src}" alt="">`;
+// lay every card out in 3d depending on how far it is from the active one
+function layoutCards() {
+    // gap between cards scales with the screen so phones still show the stack
+    const gap = Math.min(window.innerWidth * 0.3, 340);
+    lbCards.forEach((card, i) => {
+        const d = i - lbIndex;
+        const abs = Math.abs(d);
+        const vis = abs <= 3;
+        card.style.setProperty("--x", `${d * gap}px`);
+        card.style.setProperty("--z", `${-abs * 140}px`);
+        card.style.setProperty("--r", `${Math.sign(d) * -38}deg`);
+        card.style.setProperty("--s", d === 0 ? 1 : 0.86);
+        card.style.zIndex = 10 - abs;
+        card.style.opacity = vis ? (d === 0 ? 1 : Math.max(0.25, 0.8 - abs * 0.2)) : 0;
+        card.style.pointerEvents = vis ? "auto" : "none";
+        card.classList.toggle("active", d === 0);
+        const v = $("video", card);
+        if (v) { v.controls = d === 0; if (d !== 0) v.pause(); }
+    });
     $(".lb-count").textContent = lbItems.length > 1 ? `${lbIndex + 1} / ${lbItems.length}` : "";
+    $$(".lb-dots button").forEach((dot, i) => dot.classList.toggle("on", i === lbIndex));
+}
+
+function goToCard(i) {
+    lbIndex = Math.max(0, Math.min(lbItems.length - 1, i));
+    layoutCards();
 }
 
 function openLightbox(tile) {
@@ -387,7 +407,15 @@ function openLightbox(tile) {
     lbItems = tile.dataset.full.split(",").map(s => s.trim());
     lbIndex = 0;
     $(".lightbox figcaption").innerHTML = `<b>${$("h3", tile).textContent}</b><br>${tile.dataset.desc || ""}`;
-    showLightboxItem();
+    $(".lb-stage").innerHTML = lbItems.map((src, i) => `<div class="cf-card" data-i="${i}">${
+        src.endsWith(".mp4")
+            ? `<video src="${src}" playsinline ${lbItems.length === 1 ? "autoplay" : ""}></video>`
+            : `<img src="${src}" alt="" draggable="false">`
+    }<span class="glare"></span></div>`).join("");
+    $(".lb-dots").innerHTML = lbItems.length > 1 ? lbItems.map((_, i) => `<button aria-label="Go to frame ${i + 1}"></button>`).join("") : "";
+    lbCards = $$(".cf-card");
+    lightbox.classList.toggle("single", lbItems.length === 1);
+    layoutCards();
     lastFocus = tile;
     lightbox.classList.add("open");
     body.style.overflow = "hidden";
@@ -397,22 +425,112 @@ function openLightbox(tile) {
 function closeLightbox() {
     lightbox.classList.remove("open");
     $(".lb-stage").innerHTML = ""; // removing the video stops it playing
+    lbCards = [];
     body.style.overflow = "";
     if (lastFocus) lastFocus.focus();
 }
 
 function stepLightbox(dir) {
     if (lbItems.length < 2) return;
-    lbIndex = (lbIndex + dir + lbItems.length) % lbItems.length;
-    showLightboxItem();
+    goToCard(lbIndex + dir);
 }
 
 if (lightbox) {
     $$(".tile[data-full]").forEach(tile => tile.addEventListener("click", () => openLightbox(tile)));
     $(".lb-close").addEventListener("click", closeLightbox);
-    $(".lb-prev").addEventListener("click", () => stepLightbox(-1));
-    $(".lb-next").addEventListener("click", () => stepLightbox(1));
-    lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
+    window.addEventListener("resize", () => { if (lbCards.length) layoutCards(); });
+
+    const stage = $(".lb-stage");
+    let startX = 0, dragging = false, moved = false;
+
+    // drag or swipe the stack
+    stage.addEventListener("pointerdown", e => {
+        startX = e.clientX; dragging = true; moved = false;
+        stage.classList.add("grab");
+    });
+    window.addEventListener("pointerup", e => {
+        if (!dragging) return;
+        dragging = false;
+        stage.classList.remove("grab");
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 50) { moved = true; stepLightbox(dx < 0 ? 1 : -1); }
+    });
+
+    // click a side card to pull it to the front
+    // clicking empty space around the stack closes it, but not at the end of a drag
+    lightbox.addEventListener("click", e => {
+        if (moved) { moved = false; return; }
+        const card = e.target.closest(".cf-card");
+        if (card) { if (Number(card.dataset.i) !== lbIndex) goToCard(Number(card.dataset.i)); return; }
+        if (e.target === lightbox || e.target === stage || e.target.tagName === "FIGURE") closeLightbox();
+    });
+
+    // the front card tilts toward the pointer and catches the light
+    stage.addEventListener("pointermove", e => {
+        if (dragging || e.pointerType === "touch") return;
+        const card = $(".cf-card.active", stage);
+        if (!card || !card.contains(e.target)) return;
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        card.style.setProperty("--ty", `${(px - 0.5) * 14}deg`);
+        card.style.setProperty("--tx", `${(0.5 - py) * 14}deg`);
+        card.style.setProperty("--gx", `${px * 100}%`);
+        card.style.setProperty("--gy", `${py * 100}%`);
+    });
+    stage.addEventListener("pointerleave", () => {
+        lbCards.forEach(c => { c.style.setProperty("--tx", "0deg"); c.style.setProperty("--ty", "0deg"); });
+    });
+
+    // trackpad / wheel flips through the stack
+    let wheelLock = 0;
+    lightbox.addEventListener("wheel", e => {
+        if (lbItems.length < 2 || Date.now() < wheelLock) return;
+        const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (Math.abs(d) < 20) return;
+        wheelLock = Date.now() + 350;
+        stepLightbox(d > 0 ? 1 : -1);
+    }, { passive: true });
+
+    $(".lb-dots").addEventListener("click", e => {
+        const i = $$(".lb-dots button").indexOf(e.target);
+        if (i > -1) goToCard(i);
+    });
+}
+
+
+// ---------- 3d tilt on tiles and cards ----------
+
+// cards lean toward the pointer and a soft light follows it. skipped on touch and when motion is off
+if (matchMedia("(hover: hover)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    $$(".tile, .bento-card").forEach(el => {
+        el.addEventListener("pointermove", e => {
+            const r = el.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width;
+            const py = (e.clientY - r.top) / r.height;
+            el.style.setProperty("--ry", `${(px - 0.5) * 9}deg`);
+            el.style.setProperty("--rx", `${(0.5 - py) * 9}deg`);
+            el.style.setProperty("--gx", `${px * 100}%`);
+            el.style.setProperty("--gy", `${py * 100}%`);
+        });
+        el.addEventListener("pointerleave", () => {
+            el.style.setProperty("--rx", "0deg");
+            el.style.setProperty("--ry", "0deg");
+        });
+    });
+}
+
+
+// ---------- scroll progress ----------
+
+const bar = $(".scroll-bar");
+if (bar) {
+    const setBar = () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    };
+    addEventListener("scroll", setBar, { passive: true });
+    setBar();
 }
 
 
