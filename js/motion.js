@@ -76,14 +76,13 @@ const cssVar = name => getComputedStyle(document.documentElement).getPropertyVal
 // ---------- hero: photo / film / print morph ----------
 
 // ~500 particles, each tied to its own spring. switching mode just swaps the
-// targets and the spring settings, so the same dots become a glass aperture,
+// targets and the spring settings, so the same dots become a camera viewfinder,
 // a kinetic swarm or a rigid wireframe
 const heroStage = $(".hero-stage");
 
 if (heroStage) {
     const canvas = $(".morph-canvas", heroStage);
     const ctx = canvas.getContext("2d");
-    const lens = $(".glass-lens", heroStage);
     const pill = $(".mode-pill", heroStage);
     const caption = $(".stage-caption", heroStage);
     const tabs = $$(".mode-switch button", heroStage);
@@ -100,7 +99,7 @@ if (heroStage) {
 
     // each mode feels different because the physics is different, not just the shape
     const feel = {
-        photo: { k: 60, c: 9, repel: 60, label: "light through glass" },     // soft and elastic like liquid glass
+        photo: { k: 120, c: 14, repel: 35, label: "find the frame, then focus" }, // firm but springy, like a camera finding focus
         film: { k: 38, c: 6.5, repel: 170, label: "motion, frame by frame" }, // loose, it scatters from the cursor
         print: { k: 260, c: 30, repel: 25, label: "built on a grid" },        // stiff and rigid, barely moves
     };
@@ -121,32 +120,94 @@ if (heroStage) {
 
     // ---- targets for each mode ----
 
-    // photo: a six blade aperture inside two rings, like looking down a lens
+    // photo: a camera viewfinder. corner brackets of a 3:2 frame, rule of thirds,
+    // a grid of af points, and a focus box that chases the cursor and locks on
+    let focus = { x: 0, y: 0, vx: 0, vy: 0, locked: 0 };
+    let vf = null;
+
     function photoTargets(t) {
         const cx = W / 2, cy = H / 2;
-        const spin = t * 0.15;
+        const fw = Math.min(W * 0.92, R * 2.5), fh = fw * 2 / 3;
+        const L = cx - fw / 2, T = cy - fh / 2;
+        vf = { L, T, fw, fh };
+
+        // where the focus box wants to be: the cursor, or a slow wander when nobody is pointing
+        let gx = cx + Math.sin(t * 0.55) * fw * 0.28;
+        let gy = cy + Math.sin(t * 0.83 + 1) * fh * 0.22;
+        if (mouse.on) { gx = mouse.x; gy = mouse.y; }
+        const box = fh * 0.26;
+        gx = Math.min(L + fw - box, Math.max(L + box, gx));
+        gy = Math.min(T + fh - box, Math.max(T + box, gy));
+
+        const arm = fw * 0.09;
         dots.forEach((d, i) => {
-            const part = i % 3;
+            const part = i % 4;
+            const k = Math.floor(i / 4);
+            const u = (k % 15) / 14;
+            d.role = part;
             if (part === 0) {
-                // outer ring
-                const a = (i / N) * Math.PI * 2 * 3 + spin;
-                d.tx = cx + Math.cos(a) * R; d.ty = cy + Math.sin(a) * R;
+                // the 4 corner brackets, each one two arms
+                const corner = Math.floor(k / 30) % 4;
+                const horiz = Math.floor(k / 15) % 2 === 0;
+                const sx = corner % 2 ? -1 : 1, sy = corner > 1 ? -1 : 1;
+                const ox = corner % 2 ? L + fw : L, oy = corner > 1 ? T + fh : T;
+                d.tx = ox + (horiz ? sx * u * arm : 0);
+                d.ty = oy + (horiz ? 0 : sy * u * arm);
             } else if (part === 1) {
-                // inner ring breathing a little, like focus pulling
-                const a = (i / N) * Math.PI * 2 * 3 - spin * 1.4;
-                const r = R * (0.62 + Math.sin(t * 1.2) * 0.04);
-                d.tx = cx + Math.cos(a) * r; d.ty = cy + Math.sin(a) * r;
+                // rule of thirds, four faint lines
+                const line = k % 4;
+                const v = (Math.floor(k / 4) % 30) / 29;
+                if (line < 2) { d.tx = L + fw * (line + 1) / 3; d.ty = T + v * fh; }
+                else { d.tx = L + v * fw; d.ty = T + fh * (line - 1) / 3; }
+            } else if (part === 2) {
+                // the focus box, same bracket idea but small and it moves
+                const corner = Math.floor(k / 8) % 4;
+                const horiz = Math.floor(k / 4) % 2 === 0;
+                const s = (k % 4) / 3;
+                const half = box * (1 - focus.locked * 0.12);
+                const sx = corner % 2 ? -1 : 1, sy = corner > 1 ? -1 : 1;
+                const ox = focus.x + (corner % 2 ? half : -half), oy = focus.y + (corner > 1 ? half : -half);
+                d.tx = ox + (horiz ? sx * s * half * 0.45 : 0);
+                d.ty = oy + (horiz ? 0 : sy * s * half * 0.45);
             } else {
-                // the blades: six straight lines from the inner ring toward the middle
-                const blade = Math.floor(i / 3) % 6;
-                const along = ((i * 7) % 100) / 100;
-                const a0 = blade / 6 * Math.PI * 2 + spin;
-                const a1 = a0 + Math.PI * 0.58;
-                const r0 = R * 0.62, r1 = R * 0.22;
-                d.tx = cx + lerp(Math.cos(a0) * r0, Math.cos(a1) * r1, along);
-                d.ty = cy + lerp(Math.sin(a0) * r0, Math.sin(a1) * r1, along);
+                // 5 x 3 af points, each a tiny square of 8 dots
+                const p = k % 15;
+                const col = p % 5, row = Math.floor(p / 5);
+                const px = cx + (col - 2) * fw * 0.14, py = cy + (row - 1) * fh * 0.2;
+                const a = (Math.floor(k / 15) % 8) / 8 * Math.PI * 2;
+                d.tx = px + Math.cos(a) * 4; d.ty = py + Math.sin(a) * 4;
             }
         });
+
+        // the focus point itself rides a stiff spring, then counts as locked once it settles
+        const dt = 1 / 60;
+        focus.vx += (-170 * (focus.x - gx) - 22 * focus.vx) * dt;
+        focus.vy += (-170 * (focus.y - gy) - 22 * focus.vy) * dt;
+        focus.x += focus.vx * dt; focus.y += focus.vy * dt;
+        const still = Math.hypot(focus.vx, focus.vy) < 25;
+        focus.locked = lerp(focus.locked, still ? 1 : 0, 0.12);
+    }
+
+    // the little readout under the frame, like the info line in a viewfinder
+    function drawHud(t) {
+        if (!vf || modeAge < 0.3) return;
+        const { L, T, fw, fh } = vf;
+        const size = Math.max(9, Math.min(12, fw / 34));
+        ctx.font = `${size}px ${cssVar("--label-font")}`;
+        ctx.textBaseline = "top";
+        ctx.globalAlpha = Math.min(1, (modeAge - 0.3) * 2);
+        ctx.fillStyle = colors.soft;
+        const shutter = ["1/125", "1/250", "1/500"][Math.floor(t / 3) % 3];
+        ctx.fillText(`f/2.8   ${shutter}   ISO 400`, L, T + fh + 12);
+        // exposure meter: ticks with a needle that drifts around zero
+        const mw = Math.min(110, fw * 0.3), mx = L + fw - mw, my = T + fh + 14;
+        for (let i = 0; i <= 8; i++) ctx.fillRect(mx + i / 8 * mw, my + (i % 4 === 0 ? 0 : 3), 1, i % 4 === 0 ? 9 : 5);
+        ctx.fillStyle = colors.accent;
+        ctx.fillRect(mx + mw / 2 + Math.sin(t * 0.9) * mw * 0.18 - 1, my - 3, 2, 14);
+        // af confirmation lights up once the box locks
+        ctx.globalAlpha *= focus.locked;
+        ctx.fillText("● AF", L, T - size - 10);
+        ctx.globalAlpha = 1;
     }
 
     // film: a strip of three frames with sprocket holes. it sways side to side
@@ -288,9 +349,20 @@ if (heroStage) {
             ctx.globalAlpha = 1;
         }
 
+        if (mode === "photo") drawHud(t);
+
         dots.forEach((d, i) => {
             const accent = i % 9 === 0;
             ctx.fillStyle = accent ? colors.accent : colors.ink;
+            if (mode === "photo") {
+                // thirds are faint, the focus box goes red once it locks
+                const role = d.role;
+                ctx.globalAlpha = role === 1 ? 0.28 : 0.95;
+                ctx.fillStyle = role === 2 ? (focus.locked > 0.5 ? colors.accent : colors.ink) : role === 3 ? colors.soft : colors.ink;
+                const sz = role === 0 || role === 2 ? 2.2 : 1.4;
+                ctx.fillRect(d.x - sz / 2, d.y - sz / 2, sz, sz);
+                return;
+            }
             if (mode === "print") {
                 // little square nodes, like points on a grid
                 const sz = accent ? 3 : 1.8;
@@ -362,8 +434,6 @@ if (heroStage) {
         });
     }
 
-    let lensSpring = null;
-
     function setMode(next, instant) {
         mode = next;
         modeAge = 0;
@@ -372,21 +442,6 @@ if (heroStage) {
         movePill(tabs.find(b => b.dataset.mode === next), instant);
         $("span", caption).textContent = next[0].toUpperCase() + next.slice(1);
         caption.lastChild.textContent = " — " + feel[next].label;
-
-        // the glass lens pops in with an elastic spring for photo, sinks away for the others
-        if (lensSpring) lensSpring.stop();
-        const from = parseFloat(lens.dataset.s || "0");
-        const to = next === "photo" ? 1 : 0;
-        lensSpring = spring({
-            from, to,
-            stiffness: next === "photo" ? 140 : 260,
-            damping: next === "photo" ? 11 : 28,
-            onUpdate: s => {
-                lens.dataset.s = s;
-                lens.style.transform = `translate(-50%, -50%) scale(${Math.max(0, s)})`;
-                lens.style.opacity = Math.min(1, Math.max(0, s));
-            },
-        });
 
         // film kicks every dot outward so the swarm feels kinetic straight away
         if (next === "film") dots.forEach(d => { d.vx += (Math.random() - 0.5) * 900; d.vy += (Math.random() - 0.5) * 900; });
@@ -408,6 +463,12 @@ if (heroStage) {
         mouse = { x: e.clientX - r.left, y: e.clientY - r.top, on: true };
     });
     canvas.addEventListener("pointerleave", () => { mouse.on = false; });
+    // on a phone there's no hover, so a tap puts the focus (or the push) where you touched
+    canvas.addEventListener("pointerdown", e => {
+        const r = canvas.getBoundingClientRect();
+        mouse = { x: e.clientX - r.left, y: e.clientY - r.top, on: true };
+        if (e.pointerType === "touch") setTimeout(() => { mouse.on = false; }, 1400);
+    });
 
     // it cycles on its own until someone picks a mode
     setInterval(() => {
@@ -425,14 +486,68 @@ if (heroStage) {
     // theme studio changes the colours, so re-read them when the root style changes
     new MutationObserver(readColors).observe(document.documentElement, { attributes: true, attributeFilter: ["style", "data-mode", "class"] });
 
-    window.addEventListener("resize", () => { resize(); });
+    // watch the stage itself, phones change size when the address bar slides away
+    new ResizeObserver(() => resize()).observe(canvas);
 
     readColors();
     resize();
     // start every dot in the middle so the first thing you see is it opening up
     dots.forEach(d => { d.x = W / 2; d.y = H / 2; });
+    focus.x = W / 2; focus.y = H / 2;
     setMode("photo", true);
     if (!reduceMotion) addTick(step);
+}
+
+
+// ---------- crossed tapes (disciplines) ----------
+
+// the film strip runs left and the print proof runs right. scrolling speeds both up,
+// scrolling back up flips them, and the film strip leans a little with the speed.
+// hovering slows it down so a word is easy to hit, but it never stops
+const tapes = $$(".marquee .marquee-track, .marquee .tape-track");
+
+if (tapes.length && !reduceMotion) {
+    const bar = $(".marquee");
+    const state = tapes.map(el => ({ el, x: 0, dir: el.classList.contains("tape-track") ? 1 : -1, base: el.classList.contains("tape-track") ? 26 : 42 }));
+    let lastY = scrollY;
+    let push = 0;          // smoothed scroll speed
+    let flip = 1;          // 1 normal, -1 after scrolling up. eased so it turns around, not snaps
+    let flipTo = 1;
+    let hover = 1;
+    let onScreen = true;
+
+    addEventListener("scroll", () => {
+        const dy = scrollY - lastY;
+        lastY = scrollY;
+        push = Math.min(push + Math.abs(dy) * 0.9, 900);
+        if (Math.abs(dy) > 2) flipTo = dy > 0 ? 1 : -1;
+    }, { passive: true });
+
+    bar.addEventListener("pointerenter", () => { hover = 0.4; });
+    bar.addEventListener("pointerleave", () => { hover = 1; });
+    new IntersectionObserver(([e]) => {
+        onScreen = e.isIntersecting;
+        if (onScreen) addTick(run);
+    }).observe(bar);
+
+    function run(dt) {
+        if (!onScreen) return false;
+        push *= Math.pow(0.04, dt); // scroll boost fades out in about a second
+        flip = lerp(flip, flipTo, Math.min(1, dt * 4));
+        const speed = (1 + push / 60) * hover;
+        state.forEach(s => {
+            // each track holds two copies, so wrapping at half its width loops seamlessly
+            const half = s.el.scrollWidth / 2;
+            s.x += s.dir * flip * s.base * speed * dt;
+            if (s.x <= -half) s.x += half;
+            if (s.x > 0) s.x -= half;
+            const lean = s.dir < 0 ? Math.max(-4, Math.min(4, -push / 70 * flip)) : 0;
+            s.el.style.transform = `translateX(${s.x}px) skewX(${lean}deg)`;
+        });
+    }
+    // the print proof starts part way through so its words don't line up with the film frames
+    state.filter(s => s.dir > 0).forEach(s => { s.x = -s.el.scrollWidth * 0.18; });
+    addTick(run);
 }
 
 

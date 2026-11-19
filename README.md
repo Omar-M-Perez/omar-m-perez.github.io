@@ -6,7 +6,7 @@ My design portfolio. Hand-coded in plain HTML, CSS and JavaScript (no frameworks
 
 ## What's in it
 
-- **Home** - hero, a moving disciplines bar (every word is a link), 6 key case studies, then Photography, Film & motion and Print sections, about, experience timeline + skills and contact
+- **Home** - hero, two crossed tapes with the disciplines (a film strip of links + a print proof, speed follows your scroll), 6 key case studies, then Photography, Film & motion and Print sections, about, experience timeline + skills and contact
 - **More work** (`more.html`) - class projects, concept work, UX studies, 3D and sound, filterable. HODDLE's full case study lives here too
 - **6 case studies** in `projects/` - Five Senses of Toronto, NIL, Otuka, Compositing (before/after), ARIA, Boncafé (plus HODDLE Studios from the More work page)
 
@@ -25,7 +25,7 @@ My design portfolio. Hand-coded in plain HTML, CSS and JavaScript (no frameworks
 
 No libraries. One shared `requestAnimationFrame` loop that sleeps when nothing is moving, a small spring solver (`stiffness` / `damping`), and only transform / opacity changes so it stays on the gpu.
 
-- **Hero morph** - Photo / Film / Print switch. ~480 dots each on their own spring become a glass aperture (soft, elastic), a film strip that scatters from the cursor (loose) or a rotating wireframe page with its grid (stiff, rigid). Cycles on its own until you pick one, pauses when off screen
+- **Hero morph** - Photo / Film / Print switch. ~480 dots each on their own spring become a camera viewfinder with a focus box that chases the cursor and locks on, a film strip that scatters from the cursor (loose) or a rotating wireframe page with its grid (stiff, rigid). Cycles on its own until you pick one, pauses when off screen
 - **Card to case study morph** - the card's image and title spring out and land on the real case study title and cover in the drawer, then hand over
 - **Liquid photos** - one shared WebGL canvas redraws the hovered photo with a ripple and an RGB split that follow how fast the cursor moves
 - **Lens cursor** - dot + spring ring that stretches with speed, wraps around buttons and opens into a playing clip over film work. Mouse / trackpad only
