@@ -414,8 +414,8 @@ kbd {
     display: inline-flex;
     align-items: center;
     gap: .85rem;
-    padding: .35rem 1.4rem;
-    border-left: 1px solid var(--border-hairline);
+    flex: none; /* never squash, the text was running into the next item */
+    padding: .35rem 1.6rem;
     font-family: var(--heading-font);
     font-size: clamp(1.4rem, 3vw, 2.3rem);
     font-weight: 500;
@@ -425,6 +425,7 @@ kbd {
 }
 
 .marquee-track a img {
+    flex: none;
     width: 3.6rem;
     height: 2.5rem;
     object-fit: cover;
@@ -2645,4 +2646,47 @@ html.revealing body {
 @keyframes develop {
     from { filter: grayscale(1) brightness(1.9) contrast(.25) sepia(.2); }
     to { filter: none; }
+}
+
+/* flash warning, shows the first time the camera is pressed */
+.egg-warn {
+    position: fixed;
+    z-index: 950;
+    width: 240px;
+    padding: 1rem;
+    border: 1px solid var(--border-hairline);
+    border-radius: var(--radius);
+    background: var(--bg-surface);
+    box-shadow: var(--shadow);
+    font-size: .85rem;
+    animation: pop .25s var(--ease);
+}
+
+.egg-warn p {
+    margin: .4rem 0 .8rem;
+    color: var(--text-secondary);
+}
+
+.egg-warn .label {
+    color: var(--accent);
+}
+
+.egg-warn div {
+    display: flex;
+    gap: .5rem;
+}
+
+.egg-warn button {
+    flex: 1;
+    padding: .45rem .6rem;
+    border: 1px solid var(--border-hairline);
+    border-radius: 999px;
+    font-size: .8rem;
+    transition: background .2s, color .2s;
+}
+
+.egg-warn button:hover,
+.egg-warn button:focus-visible {
+    background: var(--text-primary);
+    color: var(--bg-canvas);
 }

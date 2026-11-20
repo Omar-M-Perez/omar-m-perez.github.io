@@ -1,7 +1,8 @@
 // ==========================================================
 // easter egg: the little camera in the footer
 // press it, the screen flashes and a polaroid slides out and develops.
-// you can drag them around, double click one to toss it. max 4 on screen
+// you can drag them around, double click one to toss it. max 4 on screen.
+// the first press asks first, because the flash is a bright white screen
 // ==========================================================
 
 {
@@ -15,11 +16,57 @@
     const MAX = 4;
     let deck = [];
     let shots = 0;
+    let useFlash = null; // null until they pick, then true or false for the rest of the visit
+    try {
+        const saved = sessionStorage.getItem("egg-flash");
+        if (saved) useFlash = saved === "on";
+    } catch (e) {}
 
-    // shuffle a fresh deck so you don't get the same photo twice in a row
+    // shuffle a fresh deck, and skip anything already on screen so there are never two of the same
     function nextShot() {
-        if (!deck.length) deck = [...SHOTS].sort(() => Math.random() - 0.5);
-        return `images/gallery/${deck.pop()}.jpg`;
+        const showing = [...document.querySelectorAll(".polaroid:not(.gone) img")].map(i => i.getAttribute("src"));
+        for (let tries = 0; tries < SHOTS.length * 2; tries++) {
+            if (!deck.length) deck = [...SHOTS].sort(() => Math.random() - 0.5);
+            const src = `images/gallery/${deck.pop()}.jpg`;
+            if (!showing.includes(src)) return src;
+        }
+        return `images/gallery/${SHOTS[0]}.jpg`;
+    }
+
+    // ---------- flash warning ----------
+
+    function ask() {
+        if (document.querySelector(".egg-warn")) return;
+        const r = cam.getBoundingClientRect();
+        const box = document.createElement("div");
+        box.className = "egg-warn";
+        box.setAttribute("role", "dialog");
+        box.setAttribute("aria-label", "Flash warning");
+        box.innerHTML = `<span class="label">Heads up</span><p>This takes a photo with a bright white screen flash.</p><div><button data-flash="on">With flash</button><button data-flash="off">No flash</button></div>`;
+        box.style.left = Math.min(innerWidth - 250, Math.max(10, r.left + r.width / 2 - 120)) + "px";
+        box.style.top = Math.max(10, r.top - 150) + "px";
+        document.body.append(box);
+        box.querySelector("button").focus();
+        box.addEventListener("click", e => {
+            const b = e.target.closest("button");
+            if (!b) return;
+            useFlash = b.dataset.flash === "on";
+            try { sessionStorage.setItem("egg-flash", b.dataset.flash); } catch (err) {}
+            box.remove();
+            snap();
+        });
+        // clicking anywhere else or escape just closes it
+        setTimeout(() => {
+            const close = e => {
+                if (e.type === "keydown" && e.key !== "Escape") return;
+                if (e.type === "pointerdown" && box.contains(e.target)) return;
+                box.remove();
+                removeEventListener("pointerdown", close);
+                removeEventListener("keydown", close);
+            };
+            addEventListener("pointerdown", close);
+            addEventListener("keydown", close);
+        });
     }
 
     function flash() {
@@ -57,7 +104,7 @@
     // ---------- take a picture ----------
 
     function snap() {
-        flash();
+        if (useFlash) flash();
         cam.classList.remove("click");
         void cam.offsetWidth; // restart the little press animation
         cam.classList.add("click");
@@ -80,5 +127,5 @@
         makeDraggable(card);
     }
 
-    if (cam) cam.addEventListener("click", snap);
+    if (cam) cam.addEventListener("click", () => (useFlash === null ? ask() : snap()));
 }

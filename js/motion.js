@@ -636,7 +636,10 @@ function morphToDrawer(card) {
         const q = 1 - (1 - p) * 0.92;
         const x = lerp(from.left, to.left, p), y = lerp(from.top, to.top, p);
         const w = lerp(from.width, to.width, p), h = lerp(from.height, to.height, p);
-        gImg.style.transform = `translate(${x}px, ${y}px) scale(${w / base.width}, ${h / base.height})`;
+        // size it for real instead of scaling, scaling squashed the photo while it flew
+        gImg.style.width = w + "px";
+        gImg.style.height = h + "px";
+        gImg.style.transform = `translate(${x}px, ${y}px)`;
         gImg.style.borderRadius = `${lerp(14, 6, Math.min(1, p))}px`;
         const tx = lerp(fromT.left, toT.left, q), ty = lerp(fromT.top, toT.top, q);
         const size = lerp(fromSize, toT.size, Math.min(1, q));
