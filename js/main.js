@@ -748,12 +748,12 @@ if ("IntersectionObserver" in window) {
 
 // ---------- flat file vs in the world ----------
 
-// the tabs swap which piece is in the slider. each piece has 3 files in images/real/:
-// <name>-wide (the real photo) and <name>-flat-dark / -flat-light (the flat file for night / day mode)
+// the tabs swap which print piece is in the slider. each piece has 4 files:
+// <name>-dark / -light (in the room) and <name>-flat-dark / -flat-light (the flat file)
 $$(".scene-tabs").forEach(tabs => {
     const box = tabs.closest(".in-world").querySelector(".scene-compare");
     const folder = box.dataset.folder;
-    const after = $(".scene-after", box);
+    const after = $$(":scope > img", box);
     const before = $$(".before img", box);
 
     tabs.addEventListener("click", e => {
@@ -763,13 +763,15 @@ $$(".scene-tabs").forEach(tabs => {
         const name = btn.dataset.scene;
         box.classList.add("swapping");
         setTimeout(() => {
-            after.src = `${folder}${name}-wide.webp`;
-            after.alt = `${btn.textContent}, flat file and in the world`;
+            after[0].src = `${folder}${name}-dark.webp`;
+            after[1].src = `${folder}${name}-light.webp`;
             before[0].src = `${folder}${name}-flat-dark.webp`;
             before[1].src = `${folder}${name}-flat-light.webp`;
-            // fade back in once the photo has loaded
-            if (after.complete) box.classList.remove("swapping");
-            else after.addEventListener("load", () => box.classList.remove("swapping"), { once: true });
+            after[0].alt = `${btn.textContent}, flat file and in the world`;
+            // fade back in once the one you can actually see has loaded
+            const shown = after.find(i => i.offsetParent) || after[0];
+            if (shown.complete) box.classList.remove("swapping");
+            else shown.addEventListener("load", () => box.classList.remove("swapping"), { once: true });
         }, 250);
     });
 });
