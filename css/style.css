@@ -40,9 +40,10 @@ a {
 /* every colour on the site comes from these, nothing is hardcoded in the components below */
 /* the theme studio only changes the first four, the rest are mixed from them */
 :root {
-    --bg-canvas: #f6f4ef;
-    --bg-surface: #ffffff;
-    --text-primary: #151515;
+    /* night mode (Omar Ink) is the default, day mode is a click on the sun */
+    --bg-canvas: #111111;
+    --bg-surface: #1a1a1a;
+    --text-primary: #eeebe5;
     --accent: #e8262d;
     --accent-contrast: #ffffff; /* main.js picks black or white based on the accent's luminance */
 
@@ -74,11 +75,11 @@ a {
 /* Base Styles */
 html {
     scroll-behavior: smooth;
-    color-scheme: light;
+    color-scheme: dark;
 }
 
-[data-mode="dark"] {
-    color-scheme: dark;
+[data-mode="light"] {
+    color-scheme: light;
 }
 
 body {
@@ -1508,11 +1509,15 @@ kbd {
     font-size: .85rem;
     font-weight: 500;
     box-shadow: var(--shadow);
-    transition: transform .25s var(--ease);
+    transition: transform .35s var(--ease);
 }
 
 .studio-fab:hover {
     transform: translateY(-2px);
+}
+
+.studio-fab.tucked {
+    transform: translateY(160%);
 }
 
 /* on phones the button is just the swatches so it covers less */
@@ -1916,6 +1921,17 @@ kbd {
 .reveal.in {
     opacity: 1;
     transform: none;
+}
+
+/* mockups are see-through pngs/webps with only their shadows drawn,
+   so this backdrop (built from the theme colours) is the wall behind them.
+   it follows day / night mode and whatever the theme studio is set to */
+img[src*="-mockup."] {
+    background: radial-gradient(ellipse at 50% 42%, var(--bg-surface), var(--bg-elevated));
+}
+
+[data-mode="dark"] img[src*="-mockup."] {
+    background: radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--bg-surface) 80%, var(--text-primary) 8%), var(--bg-canvas));
 }
 
 /* filtered out cards really leave the grid, so the matches move straight up to the top */

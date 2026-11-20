@@ -11,10 +11,16 @@
     <script>
         // tiny early version of the theme loader in main.js (stops a flash of the default colours)
         try {
-            var t = JSON.parse(localStorage.getItem("theme"));
+            // night mode is the default, the key changed to theme-v2 when that switched so old saves don't stick
+            document.documentElement.setAttribute("data-mode", "dark");
+            var t = JSON.parse(localStorage.getItem("theme-v2"));
             if (t && t.tokens) {
                 var k = ["--bg-canvas", "--bg-surface", "--text-primary", "--accent"];
                 k.forEach(function (name, i) { document.documentElement.style.setProperty(name, t.tokens[i]); });
+                // quick light/dark guess from the canvas colour so the mode is right before main.js loads
+                var h = t.tokens[0].replace("#", "");
+                var lum = (parseInt(h.substr(0, 2), 16) * 0.3 + parseInt(h.substr(2, 2), 16) * 0.59 + parseInt(h.substr(4, 2), 16) * 0.11) / 255;
+                if (lum > 0.45) document.documentElement.setAttribute("data-mode", "light");
             }
         } catch (e) {}
     </script>
@@ -25,7 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
     <!-- my stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=d9938cd7">
+    <link rel="stylesheet" href="css/style.css?v=52598522">
     <script>
         try {
             var r = new URLSearchParams(location.search).get("reveal");
@@ -329,8 +335,8 @@
                 </div>
 
                 <div class="gallery prints">
-                <button class="tile" data-cat="print" data-full="images/otuka/album-art.jpg, images/otuka/poster.jpg, images/otuka/vinyl.jpg, images/otuka/spotify.jpg" data-desc="Album packaging where the type becomes the image, across four formats.">
-                    <div class="media"><img src="images/otuka/album-art.jpg" alt="Open Your Eyes, Wrapped in Type" loading="lazy"><span class="badge">4 FORMATS</span></div>
+                <button class="tile" data-cat="print" data-full="images/otuka/album-art-mockup.webp, images/otuka/poster-mockup.webp, images/otuka/vinyl-mockup.webp, images/otuka/vinyl.jpg, images/otuka/spotify-mockup.webp" data-desc="Album packaging where the type becomes the image, across four formats.">
+                    <div class="media"><img src="images/otuka/album-art-mockup.webp" alt="Open Your Eyes, Wrapped in Type" loading="lazy"><span class="badge">4 FORMATS</span></div>
                     <div class="cap"><h3>Open Your Eyes, Wrapped in Type</h3><p>Album packaging where the type becomes the image, across four formats.</p></div>
                 </button>
                 <button class="tile" data-cat="print" data-full="images/gallery/drake-1.jpg, images/gallery/drake-2.jpg, images/gallery/drake-3.jpg" data-desc="Magazine feature and tabloid layout built in InDesign.">
@@ -517,7 +523,7 @@
         <p class="lb-hint">drag, scroll or use the arrow keys</p>
     </div>
 
-    <script src="js/main.js?v=67d5d34a"></script>
+    <script src="js/main.js?v=bead2dec"></script>
     <script src="js/motion.js?v=e68d57a2"></script>
     <script src="js/egg.js?v=83845ed8"></script>
     <script src="js/reveal.js?v=a761e3d4"></script>

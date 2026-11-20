@@ -12,7 +12,9 @@ My design portfolio. Hand-coded in plain HTML, CSS and JavaScript (no frameworks
 
 ## The interactive bits
 
-- **Theme Studio** - floating button bottom right. 7 presets (my two + 5 curated), live colour pickers for canvas / surface / text / accent, auto black-or-white button text from WCAG luminance, saves to localStorage, Reset, Copy CSS tokens
+- **Night mode by default** - the sun / moon in the header flips to day mode
+- **Theme Studio** - floating button bottom right (slides away on phones while you scroll down). 7 presets (my two + 5 curated), live colour pickers for canvas / surface / text / accent, auto black-or-white button text from WCAG luminance, saves to localStorage
+- **Mockups** - `tools/mockups.py` puts the Otuka pieces into see-through mockups (only shadows drawn), so the theme colours are the wall behind them
 - **Case study drawer** - clicking a project slides it in over the page (it fetches the real page in `projects/`, so every case study still has its own shareable URL)
 - **Before / after sliders** - drag (mouse or touch) or use the arrow keys. The two videos stay synced
 - **Live status bar** - Toronto clock with EST/EDT and an availability dot
@@ -50,7 +52,7 @@ index.html          homepage
 more.html           everything that isn't a key piece
 projects/           one page per case study
 css/style.css       all the styles (mobile first, media queries at the bottom)
-js/main.js          theme studio, drawer, sliders, filters, lightbox, clock, magnetic buttons
+js/main.js          theme studio, drawer, sliders, filters, lightbox, timeline, magnetic buttons
 images/             project images, sorted by project
 media/              web versions of my videos and sound pieces
 assets/             resume pdf

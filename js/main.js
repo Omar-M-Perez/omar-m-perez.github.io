@@ -112,7 +112,7 @@ function applyTokens(tokens, presetName) {
     root.style.setProperty("--accent-contrast", accentContrast(tokens[3]));
     // dark mode = the canvas is dark, used for the logo glow and color-scheme
     root.setAttribute("data-mode", luminance(tokens[0]) < 0.2 ? "dark" : "light");
-    store("theme", { tokens: currentTokens, preset: currentPreset });
+    store("theme-v2", { tokens: currentTokens, preset: currentPreset });
     syncStudio();
 }
 
@@ -125,15 +125,14 @@ function setPreset(name) {
     if (p) applyTokens(p.tokens, p.name);
 }
 
-// first load: saved theme, otherwise follow the computer's dark/light setting
+// first load: saved theme, otherwise night mode (Omar Ink) is the default
 // (called further down, once the theme studio panel exists)
 function loadTheme() {
-    const saved = store("theme");
+    const saved = store("theme-v2");
     if (saved && saved.tokens) {
         applyTokens(saved.tokens, saved.preset);
     } else {
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        setPreset(prefersDark ? "Omar Ink" : "Omar Paper");
+        setPreset("Omar Ink");
     }
 }
 
@@ -187,6 +186,18 @@ function toggleStudio(force) {
 }
 
 studioFab.addEventListener("click", () => toggleStudio());
+
+// on phones it slides away while you scroll down so it never sits on top of a card,
+// and comes back as soon as you scroll up (or hit the bottom of the page)
+let fabLastY = scrollY;
+addEventListener("scroll", () => {
+    const y = scrollY;
+    const atEnd = innerHeight + y >= document.documentElement.scrollHeight - 40;
+    const small = innerWidth < 760;
+    if (!small || atEnd || y < fabLastY - 6) studioFab.classList.remove("tucked");
+    else if (y > fabLastY + 6) studioFab.classList.add("tucked");
+    fabLastY = y;
+}, { passive: true });
 
 studio.addEventListener("click", e => {
     const preset = e.target.closest("[data-preset]");

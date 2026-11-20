@@ -10,10 +10,16 @@
     <script>
         // tiny early version of the theme loader in main.js (stops a flash of the default colours)
         try {
-            var t = JSON.parse(localStorage.getItem("theme"));
+            // night mode is the default, the key changed to theme-v2 when that switched so old saves don't stick
+            document.documentElement.setAttribute("data-mode", "dark");
+            var t = JSON.parse(localStorage.getItem("theme-v2"));
             if (t && t.tokens) {
                 var k = ["--bg-canvas", "--bg-surface", "--text-primary", "--accent"];
                 k.forEach(function (name, i) { document.documentElement.style.setProperty(name, t.tokens[i]); });
+                // quick light/dark guess from the canvas colour so the mode is right before main.js loads
+                var h = t.tokens[0].replace("#", "");
+                var lum = (parseInt(h.substr(0, 2), 16) * 0.3 + parseInt(h.substr(2, 2), 16) * 0.59 + parseInt(h.substr(4, 2), 16) * 0.11) / 255;
+                if (lum > 0.45) document.documentElement.setAttribute("data-mode", "light");
             }
         } catch (e) {}
     </script>
@@ -24,7 +30,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
     <!-- my stylesheet -->
-    <link rel="stylesheet" href="../css/style.css?v=d9938cd7">
+    <link rel="stylesheet" href="../css/style.css?v=52598522">
 </head>
 <body>
     <!-- Utility Bar -->
@@ -81,7 +87,7 @@
             </div>
             <div class="shots two">
                 <figure class="reveal"><img src="../images/otuka/album-caption.jpg" alt="Album art with caption" loading="lazy"><figcaption>Album art with caption</figcaption></figure>
-                <figure class="reveal"><img src="../images/otuka/poster.jpg" alt="Release poster" loading="lazy"><figcaption>Release poster</figcaption></figure>
+                <figure class="reveal"><img src="../images/otuka/poster-mockup.webp" alt="Release poster" loading="lazy"><figcaption>Release poster</figcaption></figure>
             </div>
         </section>
 
@@ -91,10 +97,13 @@
                 <div><p>A release lives in a lot of places now, so the system had to work tiny on a phone screen and huge on a 12-inch sleeve. The Spotify layout and the vinyl jacket use the same type logic at very different scales.</p></div>
             </div>
             <div class="shots ">
-                <figure class="reveal"><img src="../images/otuka/spotify.jpg" alt="Spotify layout" loading="lazy"><figcaption>Spotify layout</figcaption></figure>
+                <figure class="reveal"><img src="../images/otuka/spotify-mockup.webp" alt="Spotify, now playing" loading="lazy"><figcaption>Spotify, now playing</figcaption></figure>
             </div>
             <div class="shots ">
-                <figure class="reveal"><img src="../images/otuka/vinyl.jpg" alt="Vinyl jacket, front and back" loading="lazy"><figcaption>Vinyl jacket, front and back</figcaption></figure>
+                <figure class="reveal"><img src="../images/otuka/vinyl-mockup.webp" alt="Vinyl, sleeve and record" loading="lazy"><figcaption>Vinyl, sleeve and record</figcaption></figure>
+            </div>
+            <div class="shots ">
+                <figure class="reveal"><img src="../images/otuka/vinyl.jpg" alt="Vinyl jacket, front and back, flat" loading="lazy"><figcaption>Vinyl jacket, front and back, flat</figcaption></figure>
             </div>
         </section>
         <p class="label reveal" style="margin-top:2rem">Student concept, not affiliated with the artist.</p>
@@ -115,7 +124,7 @@
         </div>
     </footer>
 
-    <script src="../js/main.js?v=67d5d34a"></script>
+    <script src="../js/main.js?v=bead2dec"></script>
     <script src="../js/motion.js?v=e68d57a2"></script>
 </body>
 </html>
