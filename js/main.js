@@ -1,6 +1,6 @@
 // main.js - all the interaction for the portfolio
 // theme studio, case study drawer, before/after sliders,
-// filters, lightbox, live clock, magnetic buttons and the scroll fade-ins
+// filters, lightbox, magnetic buttons and the scroll fade-ins
 // no libraries, just plain javascript
 
 // get references to the elements we will use (some only exist on the homepage)
@@ -255,24 +255,6 @@ if (menuBtn && nav) {
         nav.classList.remove("open");
         menuBtn.setAttribute("aria-expanded", false);
     }));
-}
-
-
-// ---------- live clock (toronto time) ----------
-
-const clockEl = $(".clock");
-if (clockEl) {
-    const fmt = new Intl.DateTimeFormat("en-CA", {
-        timeZone: "America/Toronto",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-        timeZoneName: "short" // gives EST or EDT on its own
-    });
-    const tick = () => { clockEl.innerHTML = '<span class="city">Toronto </span>' + fmt.format(new Date()); };
-    tick();
-    setInterval(tick, 1000);
 }
 
 
