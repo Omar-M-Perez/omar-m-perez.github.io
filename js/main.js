@@ -145,13 +145,6 @@ if (themeBtn) {
     });
 }
 
-function cssTokens() {
-    const lines = TOKEN_KEYS.map((k, i) => "    " + k + ": " + currentTokens[i] + ";");
-    lines.push("    --accent-contrast: " + accentContrast(currentTokens[3]) + ";");
-    return ":root {\n" + lines.join("\n") + "\n}";
-}
-
-
 // ---------- theme studio (floating panel) ----------
 
 const studioFab = document.createElement("button");
@@ -182,11 +175,7 @@ studio.innerHTML = `
         <label class="picker"><input type="color" data-token="2"><span>Text<code></code></span></label>
         <label class="picker"><input type="color" data-token="3"><span>Accent<code></code></span></label>
     </div>
-    <p class="contrast-note"></p>
-    <div class="studio-actions">
-        <button class="btn" data-studio="reset">Reset</button>
-        <button class="btn primary" data-studio="copy">Copy CSS tokens</button>
-    </div>`;
+    <p class="contrast-note"></p>`;
 
 body.appendChild(studio);
 body.appendChild(studioFab);
@@ -199,20 +188,9 @@ function toggleStudio(force) {
 
 studioFab.addEventListener("click", () => toggleStudio());
 
-studio.addEventListener("click", async e => {
+studio.addEventListener("click", e => {
     const preset = e.target.closest("[data-preset]");
     if (preset) setPreset(preset.dataset.preset);
-
-    const action = e.target.closest("[data-studio]");
-    if (!action) return;
-    if (action.dataset.studio === "reset") {
-        setPreset("Omar Paper");
-        showToast("Theme reset");
-    }
-    if (action.dataset.studio === "copy") {
-        const ok = await copyText(cssTokens());
-        showToast(ok ? "CSS tokens copied" : "Couldn't copy to the clipboard");
-    }
 });
 
 // "input" fires while dragging the colour wheel, so the page updates live
@@ -358,13 +336,16 @@ let lbCards = [];
 
 // lay every card out in 3d depending on how far it is from the active one
 function layoutCards() {
-    // gap between cards scales with the screen so phones still show the stack
-    const gap = Math.min(window.innerWidth * 0.3, 340);
+    // side cards sit just past the front card's edge, so wide landscape frames never bury them
+    const front = lbCards[lbIndex];
+    const half = front ? front.offsetWidth / 2 : 200;
+    const step = Math.min(window.innerWidth * 0.08, 150);
     lbCards.forEach((card, i) => {
         const d = i - lbIndex;
         const abs = Math.abs(d);
         const vis = abs <= 3;
-        card.style.setProperty("--x", `${d * gap}px`);
+        const x = d === 0 ? 0 : Math.sign(d) * (half + 40 + (abs - 1) * step);
+        card.style.setProperty("--x", `${x}px`);
         card.style.setProperty("--z", `${-abs * 140}px`);
         card.style.setProperty("--r", `${Math.sign(d) * -38}deg`);
         card.style.setProperty("--s", d === 0 ? 1 : 0.86);
@@ -396,6 +377,7 @@ function openLightbox(tile) {
     }<span class="glare"></span></div>`).join("");
     $(".lb-dots").innerHTML = lbItems.length > 1 ? lbItems.map((_, i) => `<button aria-label="Go to frame ${i + 1}"></button>`).join("") : "";
     lbCards = $$(".cf-card");
+    $$(".cf-card img", lightbox).forEach(img => img.addEventListener("load", () => layoutCards(), { once: true }));
     lightbox.classList.toggle("single", lbItems.length === 1);
     layoutCards();
     lastFocus = tile;

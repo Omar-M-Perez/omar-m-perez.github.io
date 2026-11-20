@@ -850,7 +850,7 @@ kbd {
 
 @media (min-width: 1000px) {
     .prints {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -1392,6 +1392,14 @@ kbd {
     height: auto;
 }
 
+/* in a stack the front card is a bit narrower so its neighbours peek out either side */
+.lightbox:not(.single) .cf-card,
+.lightbox:not(.single) img {
+    max-width: 56vw;
+    width: auto;
+    height: auto;
+}
+
 .lb-dots {
     display: flex;
     justify-content: center;
@@ -1639,19 +1647,6 @@ kbd {
     background: var(--accent);
     color: var(--accent-contrast);
     font-weight: 600;
-}
-
-.studio-actions {
-    display: flex;
-    gap: .5rem;
-    margin-top: 1rem;
-}
-
-.studio-actions .btn {
-    flex: 1;
-    justify-content: center;
-    padding: .6rem .8rem;
-    font-size: .82rem;
 }
 
 /* Toast */
@@ -2232,7 +2227,7 @@ body.has-cursor .cf-card {
    ========================================================== */
 @media (min-width: 1000px) {
     .shoots {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .film-feature {
