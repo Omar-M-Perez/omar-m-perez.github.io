@@ -1,7 +1,7 @@
 // ==========================================================
 // easter egg: the little camera in the footer
 // press it, the screen flashes and a polaroid slides out and develops.
-// you can drag them around, double click one to toss it. max 4 on screen.
+// you can drag them around, close one with its x (or double click it). max 4 on screen.
 // the first press asks first, because the flash is a bright white screen
 // ==========================================================
 
@@ -81,6 +81,7 @@
     function makeDraggable(card) {
         let sx = 0, sy = 0, ox = 0, oy = 0;
         card.addEventListener("pointerdown", e => {
+            if (e.target.closest(".polaroid-close")) return; // let the x do its thing
             card.setPointerCapture(e.pointerId);
             sx = e.clientX; sy = e.clientY;
             ox = parseFloat(card.style.left); oy = parseFloat(card.style.top);
@@ -95,10 +96,13 @@
         const drop = () => card.classList.remove("held");
         card.addEventListener("pointerup", drop);
         card.addEventListener("pointercancel", drop);
-        card.addEventListener("dblclick", () => {
-            card.classList.add("gone");
-            setTimeout(() => card.remove(), 350);
-        });
+        card.addEventListener("dblclick", () => toss(card));
+        card.querySelector(".polaroid-close").addEventListener("click", () => toss(card));
+    }
+
+    function toss(card) {
+        card.classList.add("gone");
+        setTimeout(() => card.remove(), 350);
     }
 
     // ---------- take a picture ----------
@@ -122,7 +126,7 @@
         card.style.top = y + "px";
         card.style.setProperty("--tilt", (Math.random() * 14 - 7).toFixed(1) + "deg");
         card.style.zIndex = 400 + (++shots);
-        card.innerHTML = `<img src="${nextShot()}" alt="" draggable="false"><figcaption>no. ${String(shots).padStart(2, "0")}</figcaption>`;
+        card.innerHTML = `<img src="${nextShot()}" alt="" draggable="false"><figcaption>no. ${String(shots).padStart(2, "0")}</figcaption><button class="polaroid-close" aria-label="Close photo">&times;</button>`;
         document.body.append(card);
         makeDraggable(card);
     }

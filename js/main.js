@@ -735,6 +735,37 @@ if ("IntersectionObserver" in window) {
 }
 
 
+// ---------- timeline ----------
+
+// the line fills down as the timeline scrolls up through the screen,
+// and each role lights up once the line passes its dot. scroll back up and it undoes
+const timeline = $(".timeline");
+
+if (timeline) {
+    const roles = [...timeline.children];
+    let ticking = false;
+
+    function drawTimeline() {
+        ticking = false;
+        const box = timeline.getBoundingClientRect();
+        // starts when the top hits 85% of the screen, done when the bottom gets to 55%
+        const start = innerHeight * 0.85;
+        const end = innerHeight * 0.55;
+        const progress = Math.max(0, Math.min(1, (start - box.top) / (box.height + start - end)));
+        timeline.style.setProperty("--draw", progress.toFixed(3));
+        const lineY = progress * box.height;
+        roles.forEach(li => li.classList.toggle("lit", li.offsetTop + 8 <= lineY));
+    }
+
+    const onScroll = () => {
+        if (!ticking) { ticking = true; requestAnimationFrame(drawTimeline); }
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll);
+    drawTimeline();
+}
+
+
 // ---------- footer year ----------
 
 $$(".year").forEach(el => { el.textContent = new Date().getFullYear(); });

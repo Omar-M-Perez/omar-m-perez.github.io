@@ -923,14 +923,45 @@ kbd {
     gap: 3rem;
 }
 
+/* the line draws itself down as you scroll (--draw goes 0 to 1 from main.js)
+   and each role slowly fades in once the line reaches its dot */
 .timeline {
+    position: relative;
     list-style: none;
     border-left: 1px solid var(--border-hairline);
+}
+
+.timeline::after {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--accent);
+    transform-origin: top;
+    transform: scaleY(var(--draw, 0));
 }
 
 .timeline li {
     position: relative;
     padding: 0 0 1.75rem 1.5rem;
+    opacity: 0;
+    transform: translateX(-14px);
+    filter: blur(4px);
+    transition: opacity 1.2s var(--ease), transform 1.2s var(--ease), filter 1.2s var(--ease);
+}
+
+.timeline li.lit {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+/* the dot fills in when the line gets to it */
+.timeline li.lit::before {
+    background: var(--accent);
+    scale: 1.15;
 }
 
 /* dot on the line for each role */
@@ -944,6 +975,8 @@ kbd {
     border-radius: 50%;
     background: var(--bg-canvas);
     border: 2px solid var(--accent);
+    z-index: 1;
+    transition: background .6s, scale .6s;
 }
 
 .timeline .years {
@@ -2689,4 +2722,30 @@ html.revealing body {
 .egg-warn button:focus-visible {
     background: var(--text-primary);
     color: var(--bg-canvas);
+}
+
+/* little x in the corner of each polaroid */
+.polaroid-close {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: #fbfaf6;
+    font-size: 14px;
+    line-height: 1;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .3);
+    opacity: .85;
+    transition: opacity .2s, background .2s, scale .2s;
+}
+
+.polaroid-close:hover,
+.polaroid-close:focus-visible {
+    opacity: 1;
+    background: var(--accent);
+    scale: 1.1;
 }
