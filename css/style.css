@@ -1417,6 +1417,27 @@ kbd {
     height: auto;
 }
 
+/* the hint matches the device: swipe on phones, drag / keys with a mouse */
+.hint-touch { display: none; }
+
+@media (hover: none) and (pointer: coarse) {
+    .hint-touch { display: inline; }
+    .hint-mouse { display: none; }
+}
+
+/* on phones the front card gets most of the width so you can actually see the piece */
+@media (max-width: 700px) {
+    .lightbox:not(.single) .cf-card,
+    .lightbox:not(.single) img {
+        max-width: 86vw;
+    }
+
+    .lightbox img,
+    .lightbox video {
+        max-width: 92vw;
+    }
+}
+
 .lb-dots {
     display: flex;
     justify-content: center;
