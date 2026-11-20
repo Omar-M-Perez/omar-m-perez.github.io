@@ -511,8 +511,8 @@ if (heroStage) {
 
 // ---------- crossed tapes (disciplines) ----------
 
-// the film strip runs left and the print proof runs right. scrolling speeds both up,
-// scrolling back up flips them, and the film strip leans a little with the speed.
+// the links row runs left and the label row runs right. scrolling speeds both up,
+// scrolling back up flips them.
 // hovering slows it down so a word is easy to hit, but it never stops
 const tapes = $$(".marquee .marquee-track, .marquee .tape-track");
 
@@ -551,8 +551,7 @@ if (tapes.length && !reduceMotion) {
             s.x += s.dir * flip * s.base * speed * dt;
             if (s.x <= -half) s.x += half;
             if (s.x > 0) s.x -= half;
-            const lean = s.dir < 0 ? Math.max(-4, Math.min(4, -push / 70 * flip)) : 0;
-            s.el.style.transform = `translateX(${s.x}px) skewX(${lean}deg)`;
+            s.el.style.transform = `translateX(${s.x}px)`;
         });
     }
     // the print proof starts part way through so its words don't line up with the film frames

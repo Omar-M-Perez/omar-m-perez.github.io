@@ -6,7 +6,7 @@ My design portfolio. Hand-coded in plain HTML, CSS and JavaScript (no frameworks
 
 ## What's in it
 
-- **Home** - hero, two crossed tapes with the disciplines (a film strip of links + a print proof, speed follows your scroll), 6 key case studies, then Photography, Film & motion and Print sections, about, experience timeline + skills and contact
+- **Home** - hero, a disciplines strip (two rows sliding opposite ways, speed follows your scroll), 6 key case studies, then Photography, Film & motion and Print sections, about, experience timeline + skills and contact
 - **More work** (`more.html`) - class projects, concept work, UX studies, 3D and sound, filterable. HODDLE's full case study lives here too
 - **6 case studies** in `projects/` - Five Senses of Toronto, NIL, Otuka, Compositing (before/after), ARIA, Boncafé (plus HODDLE Studios from the More work page)
 
@@ -23,11 +23,11 @@ My design portfolio. Hand-coded in plain HTML, CSS and JavaScript (no frameworks
 
 ### Page reveal (`js/reveal.js`)
 
-Plays once per visit when the site opens. Four to choose from, try them with `?reveal=shutter`, `?reveal=leader`, `?reveal=darkroom` or `?reveal=contact`. The default is `REVEAL_DEFAULT` at the top of the file. Click or any key skips it.
+The page opens behind a closed camera aperture. The blades open as you scroll (wheel, trackpad, swipe or arrow keys) and close again if you scroll back up. Once it's fully open the page scrolls normally. Click opens it the rest of the way. Plays once per visit, replay it with `?reveal=shutter` or turn it off with `?reveal=none`.
 
-### Catch the shot (`js/game.js`)
+### Easter egg (`js/egg.js`)
 
-Small camera game before the contact section. A car crosses the viewfinder, fire the shutter (space, click or tap) when it's in the focus box. 5 shots a roll, best roll saved in the browser.
+There's a tiny camera icon in the footer. Press it and the screen flashes and a polaroid of one of the photos slides out and develops. Drag them around, double click to toss one. Max 4 on screen.
 
 ### Motion layer (`js/motion.js`)
 

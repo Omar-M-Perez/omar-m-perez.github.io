@@ -378,42 +378,30 @@ kbd {
     50% { translate: 0 -12px; }
 }
 
-/* Disciplines tapes */
-/* two strips crossed over each other like tape on a moodboard. the top one is a film strip
-   (each discipline gets its own frame + a tiny shot of that work), the bottom one is a
-   print proof with registration marks. js moves them, it never stops on hover */
+/* Disciplines strip */
+/* two clean rows that slide in opposite directions. the top row is the links (big type,
+   a tiny shot of that work and an index number), the bottom row is a quiet mono label line.
+   js moves them and ties the speed to how fast you scroll. edges fade out into the page */
 .marquee {
     position: relative;
-    display: block;
-    height: 11.5rem;
+    display: grid;
+    gap: .35rem;
+    padding: 1.1rem 0 1rem;
     overflow: hidden;
+    border-top: 1px solid var(--border-hairline);
     border-bottom: 1px solid var(--border-hairline);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
 .tape {
-    position: absolute;
-    left: -5%;
-    width: 110%;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.tape-film {
-    top: 3.4rem;
-    z-index: 2;
-    transform: rotate(-3.2deg);
-    background: #121212;
-    color: #f3efe7;
-    box-shadow: 0 14px 30px -14px rgba(0, 0, 0, .55);
-}
-
-.tape-print {
-    top: 4.6rem;
-    z-index: 1;
-    transform: rotate(4.2deg);
-    background: var(--accent);
-    color: var(--accent-contrast);
-}
+/* the links row sits on top, the label row underneath */
+.tape-film { order: 1; }
+.tape-print { order: 2; }
 
 .marquee-track,
 .tape-track {
@@ -422,65 +410,61 @@ kbd {
     will-change: transform;
 }
 
-/* sprocket holes ride along with the track, top and bottom */
-.marquee-track {
-    padding: 15px 0;
-    background:
-        repeating-linear-gradient(90deg, rgba(243, 239, 231, .85) 0 9px, transparent 9px 22px) left 5px / 100% 6px no-repeat,
-        repeating-linear-gradient(90deg, rgba(243, 239, 231, .85) 0 9px, transparent 9px 22px) left calc(100% - 5px) / 100% 6px no-repeat;
-}
-
 .marquee-track a {
-    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: .8rem;
-    padding: .55rem 1.6rem .55rem 1.2rem;
-    border-left: 1px solid rgba(243, 239, 231, .16);
+    gap: .85rem;
+    padding: .35rem 1.4rem;
+    border-left: 1px solid var(--border-hairline);
     font-family: var(--heading-font);
-    font-size: 1.35rem;
+    font-size: clamp(1.4rem, 3vw, 2.3rem);
     font-weight: 500;
-    transition: color .25s, background .25s;
+    letter-spacing: -.01em;
+    color: var(--text-primary);
+    transition: color .25s;
 }
 
 .marquee-track a img {
-    width: 42px;
-    height: 42px;
+    width: 3.6rem;
+    height: 2.5rem;
     object-fit: cover;
-    border-radius: 3px;
-    filter: grayscale(1) contrast(1.1);
-    transition: filter .3s, transform .3s var(--ease);
+    border-radius: 6px;
+    border: 1px solid var(--border-hairline);
+    filter: grayscale(1);
+    opacity: .85;
+    transition: filter .3s, opacity .3s, transform .4s var(--ease);
 }
 
-/* edge print, like the frame numbers on real film */
+/* small index number, same as the 01 / 02 on the section labels */
 .fno {
-    position: absolute;
-    top: -.15rem;
-    left: 1.2rem;
+    order: -1;
+    align-self: flex-start;
+    margin-top: .45rem;
     font-family: var(--label-font);
-    font-size: .58rem;
-    letter-spacing: .1em;
-    color: #f5a623;
+    font-size: .68rem;
+    font-weight: 400;
+    letter-spacing: .08em;
+    color: var(--accent);
 }
 
 .marquee-track a:hover,
 .marquee-track a:focus-visible {
     color: var(--accent);
-    background: rgba(243, 239, 231, .06);
 }
 
 .marquee-track a:hover img,
 .marquee-track a:focus-visible img {
     filter: none;
-    transform: scale(1.12) rotate(-3deg);
+    opacity: 1;
+    transform: scale(1.08);
 }
 
 .tape-track {
-    padding: .55rem 0;
     font-family: var(--label-font);
-    font-size: .85rem;
-    letter-spacing: .22em;
+    font-size: .72rem;
+    letter-spacing: .14em;
     text-transform: uppercase;
+    color: var(--text-secondary);
 }
 
 .tape-track span {
@@ -488,20 +472,18 @@ kbd {
 }
 
 .reg {
-    width: 15px;
-    height: 15px;
+    width: 11px;
+    height: 11px;
     fill: none;
-    stroke: currentColor;
-    stroke-width: 1.4;
+    stroke: var(--accent);
+    stroke-width: 1.6;
 }
 
 @media (max-width: 700px) {
-    .marquee { height: 9.5rem; }
-    .tape-film { top: 1.3rem; transform: rotate(-4deg); }
-    .tape-print { top: 5.7rem; transform: rotate(4deg); }
-    .marquee-track a { font-size: 1.05rem; padding: .4rem 1.1rem .4rem .9rem; }
-    .marquee-track a img { width: 32px; height: 32px; }
-    .fno { left: .9rem; }
+    .marquee { padding: .8rem 0 .75rem; }
+    .marquee-track a { gap: .6rem; padding: .3rem 1rem; }
+    .marquee-track a img { width: 2.6rem; height: 1.8rem; }
+    .fno { margin-top: .3rem; font-size: .6rem; }
 }
 
 
@@ -2174,101 +2156,31 @@ html.reveal-pending body {
     pointer-events: none;
 }
 
-/* darkroom: the page starts grey and blown out and develops as --develop goes 0 to 1 */
-html.reveal-darkroom main,
-html.reveal-darkroom .site-header {
-    filter: grayscale(calc(1 - var(--develop, 0))) contrast(calc(2.2 - 1.2 * var(--develop, 0))) brightness(calc(1.8 - .8 * var(--develop, 0)));
-}
-
-/* ---------- catch the shot (game.js) ---------- */
-.play {
-    padding: 4rem 0 1rem;
-}
-
-.game {
-    border: 1px solid var(--border-hairline);
-    border-radius: 16px;
+/* hold the page still while the lens is opening */
+html.revealing,
+html.revealing body {
     overflow: hidden;
-    background: #0c1020;
+    overscroll-behavior: none;
 }
 
-.game canvas {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 7;
-    cursor: crosshair;
-    touch-action: manipulation;
+.reveal-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 2.2rem;
+    translate: -50% 0;
+    color: #f3efe7;
+    opacity: .8;
+    pointer-events: none;
+    animation: hint-bob 1.8s ease-in-out infinite;
 }
 
-.game-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: .8rem 1.2rem;
-    padding: 1rem 1.2rem;
-    background: var(--bg-surface);
-    border-top: 1px solid var(--border-hairline);
+.reveal-hint::after {
+    content: " \2193";
+    color: var(--accent);
 }
 
-.game-shutter .dot {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    margin-right: .5rem;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
-}
-
-.game-shutter:disabled {
-    opacity: .45;
-    cursor: not-allowed;
-}
-
-.game-roll {
-    display: flex;
-    gap: .35rem;
-    margin-left: auto;
-}
-
-.game-roll span {
-    min-width: 2.2rem;
-    padding: .3rem .4rem;
-    border: 1px solid var(--border-hairline);
-    border-radius: 6px;
-    text-align: center;
-    font-family: var(--label-font);
-    font-size: .75rem;
-    color: var(--text-secondary);
-}
-
-.game-roll .hit {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--accent-contrast);
-}
-
-.game-roll .ok {
-    color: var(--text-primary);
-    border-color: var(--text-primary);
-}
-
-.game-roll .miss {
-    text-decoration: line-through;
-}
-
-.game-best {
-    color: var(--text-secondary);
-}
-
-@media (max-width: 700px) {
-    .game canvas {
-        aspect-ratio: 4 / 3;
-    }
-
-    .game-roll {
-        margin-left: 0;
-    }
+@keyframes hint-bob {
+    50% { transform: translateY(5px); }
 }
 
 /* contact: intro on the left, the message box on the right */
@@ -2628,4 +2540,109 @@ html.reveal-darkroom .site-header {
     .gallery {
         columns: 4;
     }
+}
+
+
+/* ---------- easter egg (egg.js) ---------- */
+/* the little camera in the footer, the flash and the polaroids it spits out */
+.egg-cam {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    opacity: .55;
+    transition: opacity .25s, color .25s, transform .25s var(--ease);
+}
+
+.egg-cam svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+}
+
+.egg-cam:hover,
+.egg-cam:focus-visible {
+    opacity: 1;
+    color: var(--accent);
+    transform: rotate(-8deg);
+}
+
+.egg-cam.click {
+    animation: cam-press .3s var(--ease);
+}
+
+@keyframes cam-press {
+    40% { transform: scale(.82); }
+}
+
+.egg-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    background: #fff;
+    pointer-events: none;
+    animation: egg-flash .45s ease-out forwards;
+}
+
+@keyframes egg-flash {
+    from { opacity: .85; }
+    to { opacity: 0; }
+}
+
+.polaroid {
+    position: fixed;
+    width: 170px;
+    padding: 9px 9px 0;
+    background: #fbfaf6;
+    border-radius: 3px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .28);
+    rotate: var(--tilt, 0deg);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    animation: polaroid-out .6s var(--ease);
+    transition: scale .2s, opacity .3s, box-shadow .2s;
+}
+
+.polaroid img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    pointer-events: none;
+    /* starts as a blank grey square and fades into the photo, like it's developing */
+    animation: develop 3.2s ease-out forwards;
+}
+
+.polaroid figcaption {
+    padding: .45rem 0 .55rem;
+    font-family: var(--label-font);
+    font-size: .62rem;
+    letter-spacing: .08em;
+    color: #8a877f;
+    text-align: center;
+}
+
+.polaroid.held {
+    cursor: grabbing;
+    scale: 1.05;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, .35);
+}
+
+.polaroid.gone {
+    opacity: 0;
+    scale: .85;
+}
+
+@keyframes polaroid-out {
+    from { transform: translateY(60px) scale(.6); opacity: 0; }
+}
+
+@keyframes develop {
+    from { filter: grayscale(1) brightness(1.9) contrast(.25) sepia(.2); }
+    to { filter: none; }
 }
