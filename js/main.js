@@ -746,6 +746,37 @@ if ("IntersectionObserver" in window) {
 }
 
 
+// ---------- flat file vs in the world ----------
+
+// the tabs swap which print piece is in the slider. each piece has 4 files:
+// <name>-dark / -light (in the room) and <name>-flat-dark / -flat-light (the flat file)
+$$(".scene-tabs").forEach(tabs => {
+    const box = tabs.closest(".in-world").querySelector(".scene-compare");
+    const folder = box.dataset.folder;
+    const after = $$(":scope > img", box);
+    const before = $$(".before img", box);
+
+    tabs.addEventListener("click", e => {
+        const btn = e.target.closest("button");
+        if (!btn || btn.getAttribute("aria-selected") === "true") return;
+        $$("button", tabs).forEach(b => b.setAttribute("aria-selected", b === btn));
+        const name = btn.dataset.scene;
+        box.classList.add("swapping");
+        setTimeout(() => {
+            after[0].src = `${folder}${name}-dark.webp`;
+            after[1].src = `${folder}${name}-light.webp`;
+            before[0].src = `${folder}${name}-flat-dark.webp`;
+            before[1].src = `${folder}${name}-flat-light.webp`;
+            after[0].alt = `${btn.textContent}, flat file and in the world`;
+            // fade back in once the one you can actually see has loaded
+            const shown = after.find(i => i.offsetParent) || after[0];
+            if (shown.complete) box.classList.remove("swapping");
+            else shown.addEventListener("load", () => box.classList.remove("swapping"), { once: true });
+        }, 250);
+    });
+});
+
+
 // ---------- timeline ----------
 
 // the line fills down as the timeline scrolls up through the screen,

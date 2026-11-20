@@ -1955,6 +1955,87 @@ img[src*="-mockup."] {
     background: radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--bg-surface) 80%, var(--text-primary) 8%), var(--bg-canvas));
 }
 
+/* ---------- flat file vs in the world ---------- */
+/* night / day pairs: only the one that matches the site's mode shows */
+.m-light { display: none; }
+[data-mode="light"] .m-light { display: block; }
+[data-mode="light"] .m-dark { display: none; }
+
+.in-world {
+    margin-top: 3rem;
+}
+
+.in-world-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.scene-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+}
+
+.scene-tabs button {
+    padding: .45rem .9rem;
+    border: 1px solid var(--border-hairline);
+    border-radius: 999px;
+    font-size: .85rem;
+    color: var(--text-secondary);
+    transition: background .25s, color .25s, border-color .25s;
+}
+
+.scene-tabs button:hover {
+    color: var(--text-primary);
+}
+
+.scene-tabs button[aria-selected="true"] {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+    color: var(--bg-canvas);
+}
+
+.in-world .scene-compare {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* the images fade a touch when the piece swaps */
+.scene-compare img {
+    transition: opacity .35s;
+}
+
+.scene-compare.swapping img {
+    opacity: 0;
+}
+
+.scene-compare + .scene-compare {
+    margin-top: 1rem;
+}
+
+@media (max-width: 700px) {
+    .scene-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        margin: 0 calc(var(--gutter) * -1);
+        padding: 0 var(--gutter);
+    }
+
+    .scene-tabs button {
+        flex: none;
+    }
+
+    /* taller frame on phones so the piece isn't tiny, the sides of the room get cropped */
+    .scene-compare {
+        aspect-ratio: 4 / 3;
+    }
+}
+
 /* filtered out cards really leave the grid, so the matches move straight up to the top */
 [hidden] {
     display: none !important;
