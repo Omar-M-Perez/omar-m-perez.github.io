@@ -749,12 +749,12 @@ if ("IntersectionObserver" in window) {
 // ---------- flat file vs in the world ----------
 
 // the tabs swap which piece is in the slider. each piece has 3 files in images/real/:
-// <name>-wide (the real photo) and <name>-flat-dark / -flat-light (the flat file for night / day mode)
+// <name>-wide (the real photo) and <name>-flat (the flat file on light grey)
 $$(".scene-tabs").forEach(tabs => {
     const box = tabs.closest(".in-world").querySelector(".scene-compare");
     const folder = box.dataset.folder;
     const after = $(".scene-after", box);
-    const before = $$(".before img", box);
+    const before = $(".scene-before", box);
 
     tabs.addEventListener("click", e => {
         const btn = e.target.closest("button");
@@ -765,8 +765,7 @@ $$(".scene-tabs").forEach(tabs => {
         setTimeout(() => {
             after.src = `${folder}${name}-wide.webp`;
             after.alt = `${btn.textContent}, flat file and in the world`;
-            before[0].src = `${folder}${name}-flat-dark.webp`;
-            before[1].src = `${folder}${name}-flat-light.webp`;
+            before.src = `${folder}${name}-flat.webp`;
             // fade back in once the photo has loaded
             if (after.complete) box.classList.remove("swapping");
             else after.addEventListener("load", () => box.classList.remove("swapping"), { once: true });

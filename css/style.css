@@ -1944,23 +1944,7 @@ kbd {
     transform: none;
 }
 
-/* mockups are see-through pngs/webps with only their shadows drawn,
-   so this backdrop (built from the theme colours) is the wall behind them.
-   it follows day / night mode and whatever the theme studio is set to */
-img[src*="-mockup."] {
-    background: radial-gradient(ellipse at 50% 42%, var(--bg-surface), var(--bg-elevated));
-}
-
-[data-mode="dark"] img[src*="-mockup."] {
-    background: radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--bg-surface) 80%, var(--text-primary) 8%), var(--bg-canvas));
-}
-
 /* ---------- flat file vs in the world ---------- */
-/* night / day pairs: only the one that matches the site's mode shows */
-.m-light { display: none; }
-[data-mode="light"] .m-light { display: block; }
-[data-mode="light"] .m-dark { display: none; }
-
 .in-world {
     margin-top: 3rem;
 }
