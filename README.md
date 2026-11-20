@@ -65,6 +65,8 @@ npm start
 
 then open http://localhost:3000
 
+The css/js links in the pages end in `?v=` plus a short hash of the file. That's on purpose: GitHub Pages lets browsers keep css and js for about 10 minutes, and the hash changes with every update so nobody gets new html with old css/js. Update the hash whenever you edit a css or js file.
+
 ## Adding a new gallery piece
 
 Copy one of the `<button class="tile">` blocks in `index.html` (photography, film or print section) or `more.html` and change:
