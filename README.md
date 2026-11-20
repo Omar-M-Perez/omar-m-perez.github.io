@@ -14,7 +14,8 @@ My design portfolio. Hand-coded in plain HTML, CSS and JavaScript (no frameworks
 
 - **Night mode by default** - the sun / moon in the header flips to day mode
 - **Theme Studio** - floating button bottom right (slides away on phones while you scroll down). 7 presets (my two + 5 curated), live colour pickers for canvas / surface / text / accent, auto black-or-white button text from WCAG luminance, saves to localStorage
-- **Mockups** - `tools/mockups.py` puts the Otuka pieces into see-through mockups (only shadows drawn), so the theme colours are the wall behind them
+- **Mockups** - `tools/mockups.py` makes the see-through studio mockups. `tools/photomock.py` + `tools/realmocks.py` put the print pieces and app screens into real blank mockup photos (free Unsplash photos, credits in `images/real/credits.txt`), keeping the photo's light, folds and fingers
+- **Flat file → in the world** - before / after slider under Print (and on the Otuka and Boncafé pages), tabs swap the piece
 - **Case study drawer** - clicking a project slides it in over the page (it fetches the real page in `projects/`, so every case study still has its own shareable URL)
 - **Before / after sliders** - drag (mouse or touch) or use the arrow keys. The two videos stay synced
 - **Live status bar** - Toronto clock with EST/EDT and an availability dot
