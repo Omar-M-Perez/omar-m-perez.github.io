@@ -26,6 +26,12 @@
 
     <!-- my stylesheet -->
     <link rel="stylesheet" href="css/style.css">
+    <script>
+        try {
+            var r = new URLSearchParams(location.search).get("reveal");
+            if ((r && r !== "none") || (!r && !navigator.webdriver && !sessionStorage.getItem("revealed"))) document.documentElement.classList.add("reveal-pending");
+        } catch (e) {}
+    </script>
 </head>
 <body>
     <div class="scroll-bar" aria-hidden="true"></div>
@@ -208,10 +214,12 @@
                     <p>Cars after dark, golden hour, travel, portraits and events. Click a series to flip through every frame.</p>
                 </div>
 
-                <div class="gallery shoots">
-                <button class="tile" data-cat="photo" data-full="images/gallery/meet-1.jpg, images/gallery/meet-2.jpg, images/gallery/meet-3.jpg, images/gallery/meet-4.jpg, images/gallery/meet-5.jpg" data-desc="A car meet after dark: a red 964, a Supra on bronze wheels, a GT3 and an R34, lit by whatever was around.">
-                    <div class="media"><img src="images/gallery/meet-1.jpg" alt="Night at the Meet" loading="lazy"><span class="badge">5 FRAMES</span></div>
-                    <div class="cap"><h3>Night at the Meet</h3><p>A car meet after dark: a red 964, a Supra on bronze wheels, a GT3 and an R34, lit by whatever was around.</p></div>
+                <div class="collection">
+                    <div class="collection-head"><span class="label">Collection 01</span><h3>Cars</h3><span class="label count">8 series</span></div>
+                    <div class="gallery shoots">
+                <button class="tile" data-cat="photo" data-full="images/gallery/meet-1.jpg, images/gallery/meet-2.jpg, images/gallery/meet-3.jpg, images/gallery/meet-4.jpg, images/gallery/meet-5.jpg" data-desc="Two car meets: a red 964 and a Supra under the lights, then a GT3 and an R34 out in the open.">
+                    <div class="media"><img src="images/gallery/meet-1.jpg" alt="Meet Season, 2019" loading="lazy"><span class="badge">5 FRAMES</span></div>
+                    <div class="cap"><h3>Meet Season, 2019</h3><p>Two car meets: a red 964 and a Supra under the lights, then a GT3 and an R34 out in the open.</p></div>
                 </button>
                 <button class="tile" data-cat="photo" data-full="images/gallery/cars-1.jpg, images/gallery/cars-2.jpg, images/gallery/cars-3.jpg, images/gallery/cars-4.jpg, images/gallery/cars-5.jpg, images/gallery/cars-6.jpg" data-desc="A BMW M4 Competition shot at night, lit only by its own headlights and what was around it.">
                     <div class="media"><img src="images/gallery/cars-1.jpg" alt="Matte Blue, After Dark" loading="lazy"><span class="badge">6 FRAMES</span></div>
@@ -221,17 +229,9 @@
                     <div class="media"><img src="images/gallery/gt3-1.jpg" alt="GT3, Golden Hour" loading="lazy"><span class="badge">7 FRAMES</span></div>
                     <div class="cap"><h3>GT3, Golden Hour</h3><p>A Porsche 911 GT3 shot as the sun went down: the shape of it, low and wide.</p></div>
                 </button>
-                <button class="tile" data-cat="photo" data-full="images/five-senses/sight.jpg, images/five-senses/smell.jpg, images/five-senses/sound.jpg, images/five-senses/taste.jpg, images/five-senses/touch.jpg" data-desc="One city at night, shot as five frames: sight, smell, sound, taste and touch.">
-                    <div class="media"><img src="images/five-senses/sight.jpg" alt="Five Senses of Toronto" loading="lazy"><span class="badge">5 FRAMES</span></div>
-                    <div class="cap"><h3>Five Senses of Toronto</h3><p>One city at night, shot as five frames: sight, smell, sound, taste and touch.</p></div>
-                </button>
                 <button class="tile" data-cat="photo" data-full="images/gallery/is-1.jpg, images/gallery/is-4.jpg, images/gallery/is-5.jpg, images/gallery/is-3.jpg" data-desc="One white Lexus IS followed from desert golden hour into a night car park.">
                     <div class="media"><img src="images/gallery/is-1.jpg" alt="White IS, Dusk to Dark" loading="lazy"><span class="badge">4 FRAMES</span></div>
                     <div class="cap"><h3>White IS, Dusk to Dark</h3><p>One white Lexus IS followed from desert golden hour into a night car park.</p></div>
-                </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/city-1.jpg, images/gallery/city-2.jpg, images/gallery/city-3.jpg" data-desc="A summer trip: the city at night from the hills, a waterfall in the woods and the city by day.">
-                    <div class="media"><img src="images/gallery/city-1.jpg" alt="Above the City" loading="lazy"><span class="badge">3 FRAMES</span></div>
-                    <div class="cap"><h3>Above the City</h3><p>A summer trip: the city at night from the hills, a waterfall in the woods and the city by day.</p></div>
                 </button>
                 <button class="tile" data-cat="photo" data-full="images/gallery/detail-1.jpg, images/gallery/detail-2.jpg, images/gallery/detail-3.jpg, images/gallery/detail-4.jpg, images/gallery/detail-5.jpg, images/gallery/detail-6.jpg, images/gallery/detail-7.jpg" data-desc="Badge, sill plate, tail lights and wheels: the small parts of a car, shot close.">
                     <div class="media"><img src="images/gallery/detail-1.jpg" alt="Details in the Dark" loading="lazy"><span class="badge">7 FRAMES</span></div>
@@ -249,6 +249,25 @@
                     <div class="media"><img src="images/gallery/e30-2.jpg" alt="E30 After Dark" loading="lazy"><span class="badge">4 FRAMES</span></div>
                     <div class="cap"><h3>E30 After Dark</h3><p>Night photo series lit around one car.</p></div>
                 </button>
+                    </div>
+                </div>
+                <div class="collection-pair">
+                <div class="collection half">
+                    <div class="collection-head"><span class="label">Collection 02</span><h3>Places</h3><span class="label count">2 series</span></div>
+                    <div class="gallery shoots">
+                <button class="tile" data-cat="photo" data-full="images/five-senses/sight.jpg, images/five-senses/smell.jpg, images/five-senses/sound.jpg, images/five-senses/taste.jpg, images/five-senses/touch.jpg" data-desc="One city at night, shot as five frames: sight, smell, sound, taste and touch.">
+                    <div class="media"><img src="images/five-senses/sight.jpg" alt="Five Senses of Toronto" loading="lazy"><span class="badge">5 FRAMES</span></div>
+                    <div class="cap"><h3>Five Senses of Toronto</h3><p>One city at night, shot as five frames: sight, smell, sound, taste and touch.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/city-1.jpg, images/gallery/city-2.jpg, images/gallery/city-3.jpg" data-desc="A summer trip: the city at night from the hills, a waterfall in the woods and the city by day.">
+                    <div class="media"><img src="images/gallery/city-1.jpg" alt="Above the City" loading="lazy"><span class="badge">3 FRAMES</span></div>
+                    <div class="cap"><h3>Above the City</h3><p>A summer trip: the city at night from the hills, a waterfall in the woods and the city by day.</p></div>
+                </button>
+                    </div>
+                </div>
+                <div class="collection half">
+                    <div class="collection-head"><span class="label">Collection 03</span><h3>People</h3><span class="label count">2 series</span></div>
+                    <div class="gallery shoots">
                 <button class="tile" data-cat="photo" data-full="images/gallery/portrait-3.jpg, images/gallery/portrait-1.jpg, images/gallery/portrait-2.jpg" data-desc="Natural light and reflector portraits.">
                     <div class="media"><img src="images/gallery/portrait-3.jpg" alt="Natural Light Portraits" loading="lazy"><span class="badge">3 FRAMES</span></div>
                     <div class="cap"><h3>Natural Light Portraits</h3><p>Natural light and reflector portraits.</p></div>
@@ -257,6 +276,8 @@
                     <div class="media"><img src="images/gallery/event-3.jpg" alt="Candid Moments" loading="lazy"><span class="badge">3 FRAMES</span></div>
                     <div class="cap"><h3>Candid Moments</h3><p>Candid shots from an event shoot, March 2026.</p></div>
                 </button>
+                    </div>
+                </div>
                 </div>
             </div>
         </section>
@@ -419,23 +440,70 @@
         </section>
 
         <!-- 05 Contact -->
-        <section class="cta" id="contact">
+        <!-- a small break before contact: the camera mini game (game.js) -->
+        <section class="play" id="play">
             <div class="wrap reveal">
-                <p class="label"><span class="num">06</span> / Contact</p>
-                <a class="big-link" href="mailto:ompel-sadek@myseneca.ca">Start a conversation <span class="arrow">&rarr;</span></a>
-                <div class="cta-row">
-                    <button class="btn primary magnetic copy-btn">
-                        <svg class="copy-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
-                        <svg class="tick" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
-                        <span class="copy-label">Copy email</span>
-                    </button>
-                    <a class="btn magnetic" href="assets/Omar-El-Sadek-Resume.pdf" target="_blank" rel="noopener">Resume (PDF) &darr;</a>
-                    <span class="label">ompel-sadek@myseneca.ca</span>
+                <div class="section-head">
+                    <div>
+                        <p class="label"><span class="num">&#9679;</span> / Take a break</p>
+                        <h2>Catch the shot</h2>
+                    </div>
+                    <p>A car crosses the frame. Fire the shutter when it's inside the focus box. Five shots a roll, faster each time. Space, click or tap.</p>
                 </div>
-                <nav class="socials" aria-label="Elsewhere">
-                    <a href="https://www.linkedin.com/in/omar-el-sadek-090aba210" target="_blank" rel="noopener">LinkedIn &#8599;</a>
-                    <a href="mailto:omarelsadek1994@gmail.com">Gmail &#8599;</a>
-                </nav>
+                <div class="game">
+                    <canvas aria-label="Catch the shot game: fire the shutter when the car is inside the focus box"></canvas>
+                    <div class="game-bar">
+                        <button class="btn primary game-start">Load the roll</button>
+                        <button class="btn game-shutter" disabled aria-label="Fire the shutter"><span class="dot"></span>Shutter</button>
+                        <span class="game-readout label" aria-live="polite">Ready when you are</span>
+                        <span class="game-roll" aria-label="Points per shot"></span>
+                        <span class="game-best label"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta" id="contact">
+            <div class="wrap reveal contact-grid">
+                <div class="contact-intro">
+                    <p class="label"><span class="num">06</span> / Contact</p>
+                    <a class="big-link" href="mailto:ompel-sadek@myseneca.ca">Start a conversation <span class="arrow">&rarr;</span></a>
+                    <p class="contact-note">Shoots, edits, print or a placement. Tell me what you're working on and I'll get back to you.</p>
+                    <div class="cta-row">
+                        <button class="btn primary magnetic copy-btn">
+                            <svg class="copy-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>
+                            <svg class="tick" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+                            <span class="copy-label">Copy email</span>
+                        </button>
+                        <a class="btn magnetic" href="assets/Omar-El-Sadek-Resume.pdf" target="_blank" rel="noopener">Resume (PDF) &darr;</a>
+                    </div>
+                    <nav class="socials" aria-label="Elsewhere">
+                        <a href="https://www.linkedin.com/in/omar-el-sadek-090aba210" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+                        <a href="mailto:omarelsadek1994@gmail.com">Gmail &#8599;</a>
+                    </nav>
+                </div>
+
+                <!-- the box writes the email for you and opens it in your mail app. no server needed -->
+                <form class="contact-box" novalidate>
+                    <p class="label">Send a message</p>
+                    <div class="field-row">
+                        <label class="field"><span>Name</span><input name="name" autocomplete="name" required></label>
+                        <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+                    </div>
+                    <fieldset class="topic">
+                        <legend>What's it about?</legend>
+                        <label><input type="radio" name="topic" value="Photography" checked><span>Photography</span></label>
+                        <label><input type="radio" name="topic" value="Video"><span>Video</span></label>
+                        <label><input type="radio" name="topic" value="Print &amp; brand"><span>Print &amp; brand</span></label>
+                        <label><input type="radio" name="topic" value="Placement"><span>Placement</span></label>
+                        <label><input type="radio" name="topic" value="Something else"><span>Something else</span></label>
+                    </fieldset>
+                    <label class="field"><span>Message</span><textarea name="message" rows="4" required></textarea></label>
+                    <div class="contact-send">
+                        <button class="btn primary magnetic" type="submit">Send message &rarr;</button>
+                        <span class="form-status label" aria-live="polite"></span>
+                    </div>
+                </form>
             </div>
         </section>
     </main>
@@ -462,5 +530,7 @@
 
     <script src="js/main.js"></script>
     <script src="js/motion.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/reveal.js"></script>
 </body>
 </html>

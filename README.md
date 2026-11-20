@@ -21,6 +21,14 @@ My design portfolio. Hand-coded in plain HTML, CSS and JavaScript (no frameworks
 - **3D card stack** - click any photo series, film clip or print piece. Frames fan out in 3D, drag / scroll / arrow keys / dots to flip, click a side card to pull it forward
 - **Full film player** - the whole NIL short film plays right on the homepage
 
+### Page reveal (`js/reveal.js`)
+
+Plays once per visit when the site opens. Four to choose from, try them with `?reveal=shutter`, `?reveal=leader`, `?reveal=darkroom` or `?reveal=contact`. The default is `REVEAL_DEFAULT` at the top of the file. Click or any key skips it.
+
+### Catch the shot (`js/game.js`)
+
+Small camera game before the contact section. A car crosses the viewfinder, fire the shutter (space, click or tap) when it's in the focus box. 5 shots a roll, best roll saved in the browser.
+
 ### Motion layer (`js/motion.js`)
 
 No libraries. One shared `requestAnimationFrame` loop that sleeps when nothing is moving, a small spring solver (`stiffness` / `damping`), and only transform / opacity changes so it stays on the gpu.

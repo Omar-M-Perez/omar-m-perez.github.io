@@ -236,11 +236,51 @@ if (menuBtn && nav) {
 }
 
 
+// ---------- contact box ----------
+
+// no server on github pages, so the box writes the email and hands it to the mail app
+const contactBox = $(".contact-box");
+if (contactBox) {
+    contactBox.addEventListener("submit", e => {
+        e.preventDefault();
+        const data = new FormData(contactBox);
+        const name = (data.get("name") || "").trim();
+        const email = (data.get("email") || "").trim();
+        const message = (data.get("message") || "").trim();
+        const topic = data.get("topic") || "Hello";
+
+        // mark anything missing instead of letting the browser pop up its own bubble
+        let ok = true;
+        [["name", name], ["email", /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? email : ""], ["message", message]].forEach(([field, value]) => {
+            const box = $(`[name="${field}"]`, contactBox).closest(".field");
+            box.classList.toggle("bad", !value);
+            if (!value) ok = false;
+        });
+        const status = $(".form-status", contactBox);
+        if (!ok) {
+            status.textContent = "Fill in the highlighted fields";
+            return;
+        }
+
+        const subject = `${topic}: message from ${name}`;
+        const body = `${message}\n\n${name}\n${email}`;
+        status.textContent = "Opening your email app...";
+        location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+
+    // clear the red outline as soon as someone starts typing
+    contactBox.addEventListener("input", e => {
+        const box = e.target.closest(".field");
+        if (box) box.classList.remove("bad");
+    });
+}
+
+
 // ---------- magnetic buttons ----------
 
 // buttons lean toward the cursor when it's within 40px of their edge, max 6px
 const finePointer = window.matchMedia("(pointer: fine)").matches;
-const calmMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const calmMotion = false; // see motion.js, motion stays on
 
 if (finePointer && !calmMotion) {
     const magnets = $$(".magnetic");
@@ -466,7 +506,7 @@ if (lightbox) {
 // ---------- 3d tilt on tiles and cards ----------
 
 // cards lean toward the pointer and a soft light follows it. skipped on touch and when motion is off
-if (matchMedia("(hover: hover)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+if (matchMedia("(hover: hover)").matches) {
     // photo tiles skip this, they get the liquid shader from motion.js instead
     $$(".tile:not(.shoots .tile), .bento-card").forEach(el => {
         el.addEventListener("pointermove", e => {

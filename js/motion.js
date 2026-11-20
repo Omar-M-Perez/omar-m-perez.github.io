@@ -4,7 +4,9 @@
 // no libraries, everything runs off one requestAnimationFrame loop and only
 // touches transform / opacity so the browser can keep it on the gpu.
 
-const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// the motion is part of the work here, so it stays on even when the computer has
+// "reduce animations" switched on. that setting used to freeze the hero completely
+const reduceMotion = false;
 const hoverPointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 
@@ -19,7 +21,15 @@ function frame(now) {
     // clamp dt so a background tab doesn't make springs explode when it comes back
     const dt = Math.min((now - lastT) / 1000, 1 / 30);
     lastT = now;
-    ticks.forEach(fn => { if (fn(dt, now) === false) ticks.delete(fn); });
+    // one broken animation should never stop all the others, so each runs on its own
+    ticks.forEach(fn => {
+        try {
+            if (fn(dt, now) === false) ticks.delete(fn);
+        } catch (err) {
+            ticks.delete(fn);
+            console.warn("animation stopped:", err);
+        }
+    });
     if (ticks.size) requestAnimationFrame(frame);
     else loopOn = false;
 }
