@@ -2595,6 +2595,12 @@ html.revealing body {
 
     /* five equal tiles across: porsche gets three tiles and two gaps, mclaren the rest,
        so every card in the row comes out exactly the same width */
+    /* a full-width brand with only three series gets wide tiles, so a shorter frame keeps
+       them from towering over the rest */
+    .collection:not(.half)[style*="--cols:3"] .shoots .tile .media {
+        aspect-ratio: 5 / 4;
+    }
+
     .collection-row {
         display: grid;
         grid-template-columns: calc((100% - 4rem) * 3 / 5 + 2rem) 1fr;
