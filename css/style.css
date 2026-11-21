@@ -891,18 +891,31 @@ kbd {
     grid-template-columns: 1fr 1fr;
 }
 
+/* same as the photo tiles: buttons centre their content when stretched, a column pins the
+   picture to the top, and the picture fills the frame instead of sizing it */
 .prints .tile {
     margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .prints .tile .media {
+    flex: none;
     aspect-ratio: 4 / 5;
+    overflow: hidden;
 }
 
 .prints .tile img {
+    position: absolute;
+    inset: 0;
     height: 100%;
     object-fit: cover;
-    object-position: top;
+}
+
+/* mockups already have their backdrop, so show the whole thing, a wide one just gets more backdrop */
+.prints .tile img[src*="-mockup."] {
+    object-fit: contain;
 }
 
 @media (min-width: 1000px) {
@@ -1851,6 +1864,11 @@ kbd {
     background: var(--bg-elevated);
 }
 
+/* a cover dropped in after a paragraph needs room to breathe */
+.case-block * + .case-cover {
+    margin-top: 1.75rem;
+}
+
 .case-cover img,
 .case-cover video {
     width: 100%;
@@ -1900,21 +1918,50 @@ kbd {
     align-items: start; /* stops shorter images getting an empty grey block under them */
 }
 
+/* the picture gets the rounded frame, the caption sits under it on the page itself,
+   lined up with the picture's left edge instead of floating in a box */
 .shots figure {
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: var(--bg-elevated);
+    margin: 0;
 }
 
 .shots img {
     width: 100%;
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+}
+
+/* rows where every picture should come out the same size, so the bottoms and the captions
+   line up instead of a short photo leaving a hole next to a tall one */
+.shots.even img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+}
+
+.shots.even.wide img {
+    aspect-ratio: 16 / 9;
+}
+
+.shots.even.land img {
+    aspect-ratio: 3 / 2;
+}
+
+/* pieces that can't be cropped (artwork with type on it) sit whole inside matching frames */
+.shots.fit img {
+    aspect-ratio: 4 / 5;
+    object-fit: contain;
+}
+
+/* stacked groups (film then stills, one row then the next) keep the same gap as inside a row */
+.case-cover + .shots,
+.shots + .shots {
+    margin-top: 1rem;
 }
 
 .shots figcaption {
     font-size: .8rem;
+    line-height: 1.4;
     color: var(--text-secondary);
-    padding: .5rem .2rem 0;
-    background: var(--bg-canvas);
+    padding: .55rem 0 0;
 }
 
 /* phone screens sit in a row and scroll sideways */
@@ -1990,6 +2037,21 @@ kbd {
     font-weight: 600;
 }
 
+/* on a phone the role goes under the name, both lined up on the left,
+   instead of two squeezed columns that wrap on different lines */
+@media (max-width: 560px) {
+    .credit-box li {
+        flex-direction: column;
+        gap: .1rem;
+        padding: .55rem 0;
+    }
+
+    .credit-box li span {
+        text-align: left;
+        font-size: .85rem;
+    }
+}
+
 .next-project {
     display: block;
     margin-top: 5rem;
@@ -2023,11 +2085,13 @@ kbd {
 /* mockups are see-through pngs/webps with only their shadows drawn,
    so this backdrop (built from the theme colours) is the wall behind them.
    it follows day / night mode and whatever the theme studio is set to */
-img[src*="-mockup."] {
+img[src*="-mockup."],
+.shots.fit img {
     background: radial-gradient(ellipse at 50% 42%, var(--bg-surface), var(--bg-elevated));
 }
 
-[data-mode="dark"] img[src*="-mockup."] {
+[data-mode="dark"] img[src*="-mockup."],
+[data-mode="dark"] .shots.fit img {
     background: radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--bg-surface) 80%, var(--text-primary) 8%), var(--bg-canvas));
 }
 
@@ -2499,6 +2563,13 @@ html.revealing body {
     gap: 0 1rem;
 }
 
+/* :first-of-type gave the first collection in each wrapper a smaller gap, which pushed
+   the second head (people) lower than the first (places). every collection in a pair
+   gets the same gap so both heads sit on one line */
+.collection-pair > .collection {
+    margin-top: 2.5rem;
+}
+
 @media (min-width: 700px) {
     .collection.half .shoots {
         grid-template-columns: repeat(2, 1fr);
@@ -2672,6 +2743,24 @@ html.revealing body {
     .span-7 { grid-column: span 7; }
     .span-5 { grid-column: span 5; }
     .span-12 { grid-column: span 12; }
+
+    /* two cards in a row are different widths, so a 16:10 picture made them different heights
+       and the titles landed at different levels. same picture height across the row instead,
+       the text block takes the rest and the tags sit on the bottom of every card */
+    .bento-card:not(.span-12) .thumb {
+        flex: none;
+        aspect-ratio: auto;
+        height: clamp(15rem, 25vw, 24rem);
+    }
+
+    .bento-card:not(.span-12) .body {
+        flex: 1;
+        grid-template-rows: auto auto 1fr auto;
+    }
+
+    .bento-card:not(.span-12) .foot {
+        align-self: end;
+    }
 
     .span-12 {
         flex-direction: row;
