@@ -2429,7 +2429,34 @@ html.revealing body {
     }
 }
 
+/* two columns on phones and tablets: an odd last series takes the full row as a wide frame instead of leaving a hole */
+@media (max-width: 999px) {
+    .shoots .tile:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+
+    .shoots .tile:last-child:nth-child(odd) .media {
+        aspect-ratio: 16 / 9;
+    }
+}
+
 @media (min-width: 1000px) {
+    /* each car brand gets as many columns as it has series, porsche and mclaren share one row */
+    .collection:not(.half) .shoots {
+        grid-template-columns: repeat(var(--cols, 4), 1fr);
+    }
+
+    .collection-row {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 0 1rem;
+    }
+
+    /* both heads on the same line */
+    .collection-row > .collection {
+        margin-top: 1.5rem;
+    }
+
     .collection-pair {
         grid-template-columns: 1fr 1fr;
     }
