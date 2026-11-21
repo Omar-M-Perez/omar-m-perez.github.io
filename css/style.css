@@ -380,9 +380,9 @@ kbd {
 }
 
 /* Disciplines strip */
-/* two clean rows that slide in opposite directions. the top row is the links (big type,
-   a tiny shot of that work and an index number), the bottom row is a quiet mono label line.
-   js moves them and ties the speed to how fast you scroll. edges fade out into the page */
+/* two clean rows. the top row is the links (big type, a tiny shot of that work and an index
+   number), the bottom row is a quiet mono label line. it sits still until you press an arrow,
+   then glides one discipline over. the one in the middle is lit, the rest sit back */
 .marquee {
     position: relative;
     display: grid;
@@ -391,14 +391,55 @@ kbd {
     overflow: hidden;
     border-top: 1px solid var(--border-hairline);
     border-bottom: 1px solid var(--border-hairline);
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
 .tape {
     overflow: hidden;
     white-space: nowrap;
+    /* edges fade into the page, the arrows sit over the fade */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
+
+/* ---------- arrows ---------- */
+.mq-btn {
+    position: absolute;
+    top: 1.1rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 2.9rem;
+    height: 2.9rem;
+    margin-top: .1rem;
+    border: 1px solid var(--border-hairline);
+    border-radius: 50%;
+    background: var(--bg-elevated, var(--bg));
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color .25s, color .25s, transform .35s var(--ease);
+}
+
+.mq-prev { left: clamp(.75rem, 3vw, 2.5rem); }
+.mq-next { right: clamp(.75rem, 3vw, 2.5rem); }
+
+.mq-btn svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.mq-btn:hover,
+.mq-btn:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.mq-prev:active { transform: translateX(-3px) scale(.94); }
+.mq-next:active { transform: translateX(3px) scale(.94); }
 
 /* the links row sits on top, the label row underneath */
 .tape-film { order: 1; }
@@ -422,7 +463,19 @@ kbd {
     font-weight: 500;
     letter-spacing: -.01em;
     color: var(--text-primary);
-    transition: color .25s;
+    opacity: .38;
+    transition: color .4s, opacity .6s var(--ease);
+}
+
+/* the one in the middle */
+.marquee-track a.is-active {
+    opacity: 1;
+}
+
+/* used for a split second when the strip hops between its copies */
+.marquee-track.no-fade a,
+.marquee-track.no-fade a img {
+    transition: none;
 }
 
 .marquee-track a img {
@@ -452,8 +505,10 @@ kbd {
 .marquee-track a:hover,
 .marquee-track a:focus-visible {
     color: var(--accent);
+    opacity: 1;
 }
 
+.marquee-track a.is-active img,
 .marquee-track a:hover img,
 .marquee-track a:focus-visible img {
     filter: none;
@@ -483,6 +538,7 @@ kbd {
 
 @media (max-width: 700px) {
     .marquee { padding: .8rem 0 .75rem; }
+    .mq-btn { top: .8rem; width: 2.4rem; height: 2.4rem; margin-top: 0; }
     .marquee-track a { gap: .6rem; padding: .3rem 1rem; }
     .marquee-track a img { width: 2.6rem; height: 1.8rem; }
     .fno { margin-top: .3rem; font-size: .6rem; }
@@ -790,6 +846,23 @@ kbd {
 .shoots .tile,
 .reel .tile {
     margin-bottom: 0;
+    /* tiles are buttons, and a button centres its content when it's stretched taller.
+       a column keeps the photo pinned to the top so every row lines up */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.shoots .tile .media,
+.reel .tile .media {
+    flex: none;
+    overflow: hidden;
+}
+
+/* the photo fills the frame instead of sizing it, so a tall shot can't stretch its tile */
+.shoots .tile .media img {
+    position: absolute;
+    inset: 0;
 }
 
 .shoots {
@@ -1432,6 +1505,9 @@ kbd {
         max-width: 86vw;
     }
 
+    /* the card and the picture inside it get the same limit, otherwise the card clips the
+       right side of wide pieces and they look shoved over */
+    .cf-card,
     .lightbox img,
     .lightbox video {
         max-width: 92vw;
@@ -2446,10 +2522,22 @@ html.revealing body {
         grid-template-columns: repeat(var(--cols, 4), 1fr);
     }
 
+    /* five equal tiles across: porsche gets three tiles and two gaps, mclaren the rest,
+       so every card in the row comes out exactly the same width */
     .collection-row {
         display: grid;
-        grid-template-columns: 3fr 2fr;
+        grid-template-columns: calc((100% - 4rem) * 3 / 5 + 2rem) 1fr;
         gap: 0 1rem;
+    }
+
+    /* and the same height, even when one caption runs a line longer */
+    .collection-row > .collection {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .collection-row .shoots {
+        flex: 1;
     }
 
     /* both heads on the same line */

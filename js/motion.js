@@ -509,54 +509,124 @@ if (heroStage) {
 }
 
 
-// ---------- crossed tapes (disciplines) ----------
+// ---------- disciplines strip ----------
 
-// the links row runs left and the label row runs right. scrolling speeds both up,
-// scrolling back up flips them.
-// hovering slows it down so a word is easy to hit, but it never stops
-const tapes = $$(".marquee .marquee-track, .marquee .tape-track");
+// no more drifting on its own. the arrows move it one discipline at a time and a spring
+// glides it there, so it eases out and settles instead of jumping. the one in the middle
+// lights up. the label row underneath follows the same spring the other way, slower,
+// so the two rows feel connected. swiping on a phone does the same as the arrows
+const strip = $(".marquee");
 
-if (tapes.length && !reduceMotion) {
-    const bar = $(".marquee");
-    const state = tapes.map(el => ({ el, x: 0, dir: el.classList.contains("tape-track") ? 1 : -1, base: el.classList.contains("tape-track") ? 26 : 42 }));
-    let lastY = scrollY;
-    let push = 0;          // smoothed scroll speed
-    let flip = 1;          // 1 normal, -1 after scrolling up. eased so it turns around, not snaps
-    let flipTo = 1;
-    let hover = 1;
-    let onScreen = true;
+if (strip) {
+    const track = $(".marquee-track", strip);
+    const label = $(".tape-track", strip);
+    const prev = $(".mq-prev", strip);
+    const next = $(".mq-next", strip);
 
-    addEventListener("scroll", () => {
-        const dy = scrollY - lastY;
-        lastY = scrollY;
-        push = Math.min(push + Math.abs(dy) * 0.9, 900);
-        if (Math.abs(dy) > 2) flipTo = dy > 0 ? 1 : -1;
+    // the html has the set written twice, a third copy means there's always something on both sides
+    const firstSet = $$("a:not([aria-hidden])", track);
+    const n = firstSet.length;
+    firstSet.forEach(a => {
+        const c = a.cloneNode(true);
+        c.setAttribute("aria-hidden", "true");
+        c.tabIndex = -1;
+        track.appendChild(c);
+    });
+    const items = $$("a", track);
+
+    let index = n;     // start on the middle copy
+    let x = 0;         // where the track is now
+    let v = 0;         // how fast it's moving
+    let running = false;
+
+    // the x that puts item i in the middle of the strip
+    const targetFor = i => strip.clientWidth / 2 - (items[i].offsetLeft + items[i].offsetWidth / 2);
+    const setWidth = () => items[n].offsetLeft - items[0].offsetLeft;
+
+    function paint() {
+        track.style.transform = `translateX(${x}px)`;
+        if (label) {
+            // the label row only has two copies, so wrap it at half its width
+            const half = label.scrollWidth / 2;
+            let lx = (-x * 0.35) % half;
+            if (lx > 0) lx -= half;
+            label.style.transform = `translateX(${lx}px)`;
+        }
+    }
+
+    function mark() {
+        items.forEach((a, i) => a.classList.toggle("is-active", i === index));
+    }
+
+    // spring step. critically damped so it slows into place with no wobble
+    function glide(dt) {
+        const k = 70;
+        const c = 2 * Math.sqrt(k);
+        const steps = Math.ceil(dt / (1 / 120));
+        const h = dt / steps;
+        for (let s = 0; s < steps; s++) {
+            v += (k * (targetFor(index) - x) - c * v) * h;
+            x += v * h;
+        }
+        paint();
+        if (Math.abs(targetFor(index) - x) < 0.3 && Math.abs(v) < 0.3) {
+            x = targetFor(index);
+            settle();
+            paint();
+            running = false;
+            return false;
+        }
+    }
+
+    // once it stops, hop back to the middle copy. the copies look the same so you can't see it
+    function settle() {
+        const was = index;
+        if (index >= 2 * n) { index -= n; x += setWidth(); }
+        if (index < n) { index += n; x -= setWidth(); }
+        if (index !== was) hop();
+    }
+
+    // swap which copy is lit without the fade, so the hop can't be seen
+    function hop() {
+        track.classList.add("no-fade");
+        mark();
+        track.offsetWidth;
+        track.classList.remove("no-fade");
+    }
+
+    function go(step) {
+        // if it's still moving past the edge of a copy, hop first so it never runs out of items
+        if (index + step >= 3 * n - 1) { index -= n; x += setWidth(); paint(); hop(); }
+        if (index + step < 1) { index += n; x -= setWidth(); paint(); hop(); }
+        index += step;
+        mark();
+        if (reduceMotion) { x = targetFor(index); settle(); paint(); return; }
+        if (!running) { running = true; addTick(glide); }
+    }
+
+    prev.addEventListener("click", () => go(-1));
+    next.addEventListener("click", () => go(1));
+
+    // swipe on touch screens
+    let sx = null;
+    track.addEventListener("touchstart", e => { sx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener("touchend", e => {
+        if (sx === null) return;
+        const dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+        sx = null;
     }, { passive: true });
 
-    bar.addEventListener("pointerenter", () => { hover = 0.4; });
-    bar.addEventListener("pointerleave", () => { hover = 1; });
-    new IntersectionObserver(([e]) => {
-        onScreen = e.isIntersecting;
-        if (onScreen) addTick(run);
-    }).observe(bar);
-
-    function run(dt) {
-        if (!onScreen) return false;
-        push *= Math.pow(0.04, dt); // scroll boost fades out in about a second
-        flip = lerp(flip, flipTo, Math.min(1, dt * 4));
-        const speed = (1 + push / 60) * hover;
-        state.forEach(s => {
-            // each track holds two copies, so wrapping at half its width loops seamlessly
-            const half = s.el.scrollWidth / 2;
-            s.x += s.dir * flip * s.base * speed * dt;
-            if (s.x <= -half) s.x += half;
-            if (s.x > 0) s.x -= half;
-            s.el.style.transform = `translateX(${s.x}px)`;
-        });
+    function place() {
+        x = targetFor(index);
+        v = 0;
+        paint();
     }
-    // the print proof starts part way through so its words don't line up with the film frames
-    state.filter(s => s.dir > 0).forEach(s => { s.x = -s.el.scrollWidth * 0.18; });
-    addTick(run);
+    // images change the widths as they load, so line it up again once they're in
+    addEventListener("resize", place);
+    addEventListener("load", place);
+    mark();
+    place();
 }
 
 

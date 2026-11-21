@@ -31,7 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
     <!-- my stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=739fb6aa">
+    <link rel="stylesheet" href="css/style.css?v=75b13186">
     <script>
         try {
             var r = new URLSearchParams(location.search).get("reveal");
@@ -101,9 +101,11 @@
 
         <!-- Disciplines Marquee -->
         <!-- every word is a link, the loop is written twice so it looks seamless (the second copy is hidden from screen readers) -->
-        <!-- two rows: the disciplines as links on top, a quiet label line underneath running the other way.
-             motion.js moves them and ties their speed and direction to how you scroll -->
+        <!-- two rows: the disciplines as links on top, a quiet label line underneath.
+             it doesn't drift on its own, the arrows glide it one discipline at a time (motion.js) -->
         <nav class="marquee" aria-label="Disciplines">
+            <button class="mq-btn mq-prev" type="button" aria-label="Previous discipline"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <button class="mq-btn mq-next" type="button" aria-label="Next discipline"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
             <div class="tape tape-print" aria-hidden="true">
                 <div class="tape-track">
                     <span>Photography</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Videography</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Camera Work</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Print &amp; Type</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Branding</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Motion &amp; VFX</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>UI/UX</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>3D &amp; Sound</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Photography</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Videography</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Camera Work</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Print &amp; Type</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Branding</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>Motion &amp; VFX</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>UI/UX</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg> <span>3D &amp; Sound</span><svg class="reg" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 0v20M0 10h20"/></svg>
@@ -224,16 +226,16 @@
                 <div class="collection" style="--cols:3">
                     <div class="collection-head"><span class="label">Collection 01</span><h3>Porsche</h3><span class="label count">3 series</span></div>
                     <div class="gallery shoots">
-                <button class="tile" data-cat="photo" data-full="images/gallery/gt3-1.jpg, images/gallery/gt3-2.jpg, images/gallery/gt3-3.jpg, images/gallery/gt3-4.jpg, images/gallery/gt3-5.jpg, images/gallery/gt3-6.jpg, images/gallery/gt3-7.jpg, images/gallery/meet-5.jpg" data-desc="A Porsche 911 GT3 shot as the sun went down: the shape of it, low and wide.">
+                <button class="tile" data-cat="photo" data-full="images/gallery/gt3d-5.jpg, images/gallery/gt3d-2.jpg, images/gallery/gt3d-1.jpg, images/gallery/gt3d-3.jpg, images/gallery/gt3d-4.jpg, images/gallery/gt3d-6.jpg, images/gallery/gt3d-7.jpg, images/gallery/gt3d-8.jpg" data-desc="Crest, decals, headlight, bronze wheels and yellow calipers. The details that make the car.">
+                    <div class="media"><img src="images/gallery/gt3d-5.jpg" alt="GT3, Up Close" loading="lazy"><span class="badge">8 FRAMES</span></div>
+                    <div class="cap"><h3>GT3, Up Close</h3><p>Crest, decals, headlight, bronze wheels and yellow calipers. The details that make the car.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/gt3-1.jpg, images/gallery/gt3-5.jpg, images/gallery/gt3-4.jpg, images/gallery/gt3-3.jpg, images/gallery/gt3-6.jpg, images/gallery/meet-5.jpg, images/gallery/gt3-2.jpg, images/gallery/gt3-7.jpg" data-desc="A Porsche 911 GT3 shot as the sun went down: the shape of it, low and wide.">
                     <div class="media"><img src="images/gallery/gt3-1.jpg" alt="GT3, Golden Hour" loading="lazy"><span class="badge">8 FRAMES</span></div>
                     <div class="cap"><h3>GT3, Golden Hour</h3><p>A Porsche 911 GT3 shot as the sun went down: the shape of it, low and wide.</p></div>
                 </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/gt3d-1.jpg, images/gallery/gt3d-2.jpg, images/gallery/gt3d-3.jpg, images/gallery/gt3d-4.jpg, images/gallery/gt3d-5.jpg, images/gallery/gt3d-6.jpg, images/gallery/gt3d-7.jpg, images/gallery/gt3d-8.jpg" data-desc="Crest, decals, headlight, bronze wheels and yellow calipers. The details that make the car.">
-                    <div class="media"><img src="images/gallery/gt3d-1.jpg" alt="GT3, Up Close" loading="lazy"><span class="badge">8 FRAMES</span></div>
-                    <div class="cap"><h3>GT3, Up Close</h3><p>Crest, decals, headlight, bronze wheels and yellow calipers. The details that make the car.</p></div>
-                </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/meet-1.jpg, images/gallery/p911-1.jpg, images/gallery/p911-2.jpg" data-desc="The air-cooled and early water-cooled 911s at a night meet, in red and grey.">
-                    <div class="media"><img src="images/gallery/meet-1.jpg" alt="Classic 911s, Meet Night" loading="lazy"><span class="badge">3 FRAMES</span></div>
+                <button class="tile" data-cat="photo" data-full="images/gallery/p911-1.jpg, images/gallery/meet-1.jpg, images/gallery/p911-2.jpg" data-desc="The air-cooled and early water-cooled 911s at a night meet, in red and grey.">
+                    <div class="media"><img src="images/gallery/p911-1.jpg" alt="Classic 911s, Meet Night" loading="lazy"><span class="badge">3 FRAMES</span></div>
                     <div class="cap"><h3>Classic 911s, Meet Night</h3><p>The air-cooled and early water-cooled 911s at a night meet, in red and grey.</p></div>
                 </button>
                     </div>
@@ -241,13 +243,13 @@
                 <div class="collection" style="--cols:2">
                     <div class="collection-head"><span class="label">Collection 02</span><h3>McLaren</h3><span class="label count">2 series</span></div>
                     <div class="gallery shoots">
-                <button class="tile" data-cat="photo" data-full="images/gallery/mcl-1.jpg, images/gallery/mcl-2.jpg, images/gallery/mcl-3.jpg, images/gallery/mcl-4.jpg" data-desc="A white McLaren 720S at a night meet: the shape of it from the front, the side and the tail.">
-                    <div class="media"><img src="images/gallery/mcl-1.jpg" alt="720S, After Dark" loading="lazy"><span class="badge">4 FRAMES</span></div>
-                    <div class="cap"><h3>720S, After Dark</h3><p>A white McLaren 720S at a night meet: the shape of it from the front, the side and the tail.</p></div>
-                </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/md-2.jpg, images/gallery/mcl-5.jpg, images/gallery/md-4.jpg" data-desc="Up close on the same car: the eye socket headlight, the badge on carbon and the carbon fender.">
-                    <div class="media"><img src="images/gallery/md-2.jpg" alt="720S, Carbon and Detail" loading="lazy"><span class="badge">3 FRAMES</span></div>
+                <button class="tile" data-cat="photo" data-full="images/gallery/mcl-5.jpg, images/gallery/md-2.jpg, images/gallery/md-4.jpg" data-desc="Up close on the same car: the eye socket headlight, the badge on carbon and the carbon fender.">
+                    <div class="media"><img src="images/gallery/mcl-5.jpg" alt="720S, Carbon and Detail" loading="lazy"><span class="badge">3 FRAMES</span></div>
                     <div class="cap"><h3>720S, Carbon and Detail</h3><p>Up close on the same car: the eye socket headlight, the badge on carbon and the carbon fender.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/mcl-3.jpg, images/gallery/mcl-1.jpg, images/gallery/mcl-2.jpg, images/gallery/mcl-4.jpg" data-desc="A white McLaren 720S at a night meet: the shape of it from the front, the side and the tail.">
+                    <div class="media"><img src="images/gallery/mcl-3.jpg" alt="720S, After Dark" loading="lazy"><span class="badge">4 FRAMES</span></div>
+                    <div class="cap"><h3>720S, After Dark</h3><p>A white McLaren 720S at a night meet: the shape of it from the front, the side and the tail.</p></div>
                 </button>
                     </div>
                 </div>
@@ -255,16 +257,16 @@
                 <div class="collection" style="--cols:3">
                     <div class="collection-head"><span class="label">Collection 03</span><h3>BMW</h3><span class="label count">3 series</span></div>
                     <div class="gallery shoots">
-                <button class="tile" data-cat="photo" data-full="images/gallery/cars-1.jpg, images/gallery/cars-2.jpg, images/gallery/cars-3.jpg, images/gallery/cars-4.jpg, images/gallery/cars-5.jpg, images/gallery/cars-6.jpg" data-desc="A BMW M4 Competition shot at night, lit only by its own headlights and what was around it.">
-                    <div class="media"><img src="images/gallery/cars-1.jpg" alt="Matte Blue, After Dark" loading="lazy"><span class="badge">6 FRAMES</span></div>
-                    <div class="cap"><h3>Matte Blue, After Dark</h3><p>A BMW M4 Competition shot at night, lit only by its own headlights and what was around it.</p></div>
-                </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/detail-1.jpg, images/gallery/detail-2.jpg, images/gallery/detail-3.jpg, images/gallery/detail-4.jpg, images/gallery/detail-5.jpg, images/gallery/detail-6.jpg, images/gallery/detail-7.jpg" data-desc="Badge, sill plate, tail lights and wheels: the small parts of the M4, shot close.">
-                    <div class="media"><img src="images/gallery/detail-1.jpg" alt="Details in the Dark" loading="lazy"><span class="badge">7 FRAMES</span></div>
+                <button class="tile" data-cat="photo" data-full="images/gallery/detail-3.jpg, images/gallery/detail-1.jpg, images/gallery/detail-4.jpg, images/gallery/detail-7.jpg, images/gallery/detail-2.jpg, images/gallery/detail-6.jpg, images/gallery/detail-5.jpg" data-desc="Badge, sill plate, tail lights and wheels: the small parts of the M4, shot close.">
+                    <div class="media"><img src="images/gallery/detail-3.jpg" alt="Details in the Dark" loading="lazy"><span class="badge">7 FRAMES</span></div>
                     <div class="cap"><h3>Details in the Dark</h3><p>Badge, sill plate, tail lights and wheels: the small parts of the M4, shot close.</p></div>
                 </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/e30-2.jpg, images/gallery/e30-3.jpg, images/gallery/e30-4.jpg, images/gallery/e30-1.jpg" data-desc="Night photo series lit around one car.">
-                    <div class="media"><img src="images/gallery/e30-2.jpg" alt="E30 After Dark" loading="lazy"><span class="badge">4 FRAMES</span></div>
+                <button class="tile" data-cat="photo" data-full="images/gallery/cars-2.jpg, images/gallery/cars-1.jpg, images/gallery/cars-6.jpg, images/gallery/cars-3.jpg, images/gallery/cars-4.jpg, images/gallery/cars-5.jpg" data-desc="A BMW M4 Competition shot at night, lit only by its own headlights and what was around it.">
+                    <div class="media"><img src="images/gallery/cars-2.jpg" alt="Matte Blue, After Dark" loading="lazy"><span class="badge">6 FRAMES</span></div>
+                    <div class="cap"><h3>Matte Blue, After Dark</h3><p>A BMW M4 Competition shot at night, lit only by its own headlights and what was around it.</p></div>
+                </button>
+                <button class="tile" data-cat="photo" data-full="images/gallery/e30-3.jpg, images/gallery/e30-2.jpg, images/gallery/e30-4.jpg, images/gallery/e30-1.jpg" data-desc="Night photo series lit around one car.">
+                    <div class="media"><img src="images/gallery/e30-3.jpg" alt="E30 After Dark" loading="lazy"><span class="badge">4 FRAMES</span></div>
                     <div class="cap"><h3>E30 After Dark</h3><p>Night photo series lit around one car.</p></div>
                 </button>
                     </div>
@@ -272,20 +274,20 @@
                 <div class="collection" style="--cols:4">
                     <div class="collection-head"><span class="label">Collection 04</span><h3>JDM</h3><span class="label count">4 series</span></div>
                     <div class="gallery shoots">
-                <button class="tile" data-cat="photo" data-full="images/gallery/gtr-1.jpg, images/gallery/meet-4.jpg, images/gallery/gtr-2.jpg, images/gallery/gtr-3.jpg, images/gallery/gtr-4.jpg" data-desc="R32 and R34 GT-Rs at a meet, down to the RB26 under the bonnet.">
-                    <div class="media"><img src="images/gallery/gtr-1.jpg" alt="Skyline GT-R" loading="lazy"><span class="badge">5 FRAMES</span></div>
+                <button class="tile" data-cat="photo" data-full="images/gallery/gtr-3.jpg, images/gallery/gtr-1.jpg, images/gallery/gtr-4.jpg, images/gallery/meet-4.jpg, images/gallery/gtr-2.jpg" data-desc="R32 and R34 GT-Rs at a meet, down to the RB26 under the bonnet.">
+                    <div class="media"><img src="images/gallery/gtr-3.jpg" alt="Skyline GT-R" loading="lazy"><span class="badge">5 FRAMES</span></div>
                     <div class="cap"><h3>Skyline GT-R</h3><p>R32 and R34 GT-Rs at a meet, down to the RB26 under the bonnet.</p></div>
                 </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/meet-2.jpg, images/gallery/supra-1.jpg, images/gallery/supra-2.jpg, images/gallery/supra-3.jpg, images/gallery/supra-4.jpg" data-desc="A white Mk4 Supra on gold wheels, shot around the car at night.">
-                    <div class="media"><img src="images/gallery/meet-2.jpg" alt="Supra, Gold Wheels" loading="lazy"><span class="badge">5 FRAMES</span></div>
+                <button class="tile" data-cat="photo" data-full="images/gallery/supra-2.jpg, images/gallery/meet-2.jpg, images/gallery/supra-1.jpg, images/gallery/supra-4.jpg, images/gallery/supra-3.jpg" data-desc="A white Mk4 Supra on gold wheels, shot around the car at night.">
+                    <div class="media"><img src="images/gallery/supra-2.jpg" alt="Supra, Gold Wheels" loading="lazy"><span class="badge">5 FRAMES</span></div>
                     <div class="cap"><h3>Supra, Gold Wheels</h3><p>A white Mk4 Supra on gold wheels, shot around the car at night.</p></div>
                 </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/is-1.jpg, images/gallery/is-6.jpg, images/gallery/is-7.jpg, images/gallery/is-4.jpg, images/gallery/is-8.jpg, images/gallery/is-9.jpg, images/gallery/is-5.jpg" data-desc="One white Lexus IS out in the desert as the sun goes down: the full car, the front and the tail.">
-                    <div class="media"><img src="images/gallery/is-1.jpg" alt="White IS, Golden Hour" loading="lazy"><span class="badge">7 FRAMES</span></div>
+                <button class="tile" data-cat="photo" data-full="images/gallery/is-7.jpg, images/gallery/is-4.jpg, images/gallery/is-1.jpg, images/gallery/is-6.jpg, images/gallery/is-8.jpg, images/gallery/is-5.jpg, images/gallery/is-9.jpg" data-desc="One white Lexus IS out in the desert as the sun goes down: the full car, the front and the tail.">
+                    <div class="media"><img src="images/gallery/is-7.jpg" alt="White IS, Golden Hour" loading="lazy"><span class="badge">7 FRAMES</span></div>
                     <div class="cap"><h3>White IS, Golden Hour</h3><p>One white Lexus IS out in the desert as the sun goes down: the full car, the front and the tail.</p></div>
                 </button>
-                <button class="tile" data-cat="photo" data-full="images/gallery/nsx-1.jpg, images/gallery/nsx-2.jpg" data-desc="A silver Honda NSX on the grass at a night meet.">
-                    <div class="media"><img src="images/gallery/nsx-1.jpg" alt="NSX at Night" loading="lazy"><span class="badge">2 FRAMES</span></div>
+                <button class="tile" data-cat="photo" data-full="images/gallery/nsx-2.jpg, images/gallery/nsx-1.jpg" data-desc="A silver Honda NSX on the grass at a night meet.">
+                    <div class="media"><img src="images/gallery/nsx-2.jpg" alt="NSX at Night" loading="lazy"><span class="badge">2 FRAMES</span></div>
                     <div class="cap"><h3>NSX at Night</h3><p>A silver Honda NSX on the grass at a night meet.</p></div>
                 </button>
                     </div>
@@ -557,7 +559,7 @@
     </div>
 
     <script src="js/main.js?v=bead2dec"></script>
-    <script src="js/motion.js?v=e68d57a2"></script>
+    <script src="js/motion.js?v=1e8e9b42"></script>
     <script src="js/egg.js?v=83845ed8"></script>
     <script src="js/reveal.js?v=a761e3d4"></script>
 </body>
