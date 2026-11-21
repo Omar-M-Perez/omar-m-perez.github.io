@@ -2574,6 +2574,7 @@ html.revealing body {
     .collection.half .shoots {
         grid-template-columns: repeat(2, 1fr);
     }
+
 }
 
 /* two columns on phones and tablets: an odd last series takes the full row as a wide frame instead of leaving a hole */
@@ -2603,7 +2604,7 @@ html.revealing body {
 
     .collection-row {
         display: grid;
-        grid-template-columns: calc((100% - 4rem) * 3 / 5 + 2rem) 1fr;
+        grid-template-columns: calc((100% - (var(--a) + var(--b) - 1) * 1rem) * var(--a) / (var(--a) + var(--b)) + (var(--a) - 1) * 1rem) 1fr;
         gap: 0 1rem;
     }
 
@@ -2622,12 +2623,23 @@ html.revealing body {
         margin-top: 1.5rem;
     }
 
+    /* places and people split the same way as porsche and mclaren: one column per series,
+       so the tiles match in width and both rows end level */
     .collection-pair {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: calc((100% - (var(--a) + var(--b) - 1) * 1rem) * var(--a) / (var(--a) + var(--b)) + (var(--a) - 1) * 1rem) 1fr;
+    }
+
+    .collection-pair > .collection {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .collection-pair .shoots {
+        flex: 1;
     }
 
     .collection.half .shoots {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(var(--cols, 2), 1fr);
     }
 }
 

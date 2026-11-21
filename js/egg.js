@@ -11,7 +11,7 @@
     // only shots that are already on the main page
     const SHOTS = [
         "gt3-1", "gt3-4", "gt3-6", "gt3d-2", "gt3d-5", "cars-1", "cars-3",
-        "cars-5", "city-1", "city-2", "detail-2", "detail-5", "is-1", "md-2"
+        "cars-6", "city-1", "city-2", "detail-2", "detail-5", "is-11", "md-5"
     ];
     const MAX = 4;
     let deck = [];
